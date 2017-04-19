@@ -1,0 +1,5 @@
+rt -> 20000000 times, total 1237402339 ns, avg 61 ns
+rt_coarse -> 20000000 times, total 158409726 ns, avg 7 ns
+mono -> 20000000 times, total 1147796055 ns, avg 57 ns
+mono_coarse -> 20000000 times, total 137061284 ns, avg 6 ns
+total 37824831768416765 ns.
