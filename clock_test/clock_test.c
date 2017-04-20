@@ -12,12 +12,13 @@ int main(void)
     struct timespec tm, st, ed;
     long total = 0;
     clockid_t clk_id[] = { CLOCK_REALTIME, CLOCK_REALTIME_COARSE, 
-                           CLOCK_MONOTONIC, CLOCK_MONOTONIC_COARSE };
-    const char * clk_id_s[] = { "rt", "rt_coarse", "mono", "mono_coarse" };
+                           CLOCK_MONOTONIC, CLOCK_MONOTONIC_COARSE,
+                           CLOCK_THREAD_CPUTIME_ID};
+    const char * clk_id_s[] = { "rt", "rt_coarse", "mono", "mono_coarse", "thread" };
 
     int i=0, j=0;
 
-    for (i=0; i<4; i++)
+    for (i=0; i<5; i++)
     {
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &st);
 
