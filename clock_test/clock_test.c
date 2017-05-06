@@ -10,22 +10,22 @@
 int main(void)
 {
     struct timespec tm, st, ed;
-    long total = 0;
+   // long total = 0;
     clockid_t clk_id[] = { CLOCK_REALTIME, CLOCK_REALTIME_COARSE, 
-                           CLOCK_MONOTONIC, CLOCK_MONOTONIC_COARSE,
+                           CLOCK_MONOTONIC, CLOCK_MONOTONIC_COARSE, CLOCK_MONOTONIC_RAW,
                            CLOCK_THREAD_CPUTIME_ID};
-    const char * clk_id_s[] = { "rt", "rt_coarse", "mono", "mono_coarse", "thread" };
+    const char * clk_id_s[] = { "rt", "rt_coarse", "mono", "mono_coarse", "mono_raw", "thread" };
 
     int i=0, j=0;
 
-    for (i=0; i<5; i++)
+    for (i=0; i<6; i++)
     {
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &st);
 
         for (j=0; j<N; j++)
         {
             clock_gettime(clk_id[i], &tm);
-            total += tm.tv_nsec;
+ //           total += tm.tv_nsec;
         }
 
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &ed);
@@ -36,7 +36,7 @@ int main(void)
                clk_id_s[i], N, result, result/N);
     }
 
-    printf("total %ld ns.\n", total);
+ //   printf("total %ld ns.\n", total);
 
     return 0;
 }

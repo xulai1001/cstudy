@@ -3,19 +3,20 @@
 
 #include "time.h"
 #include "stdio.h"
+#include "unistd.h"
 #include "linux/types.h"
 #include "stdint.h"
 
-typedef uint64_t clock_t;
+typedef uint64_t clk_t;
 
-typedef struct {
+struct myclock {
     // clock_gettime vars
-    clock_t ns;
+    clk_t ns;
     int type;
     struct timespec t0, t1;
     // rdtsc vars
-    clock_t ticks, r0, r1;
-} clock;
+    clk_t ticks, r0, r1;
+};
 
 #define START_CLOCK(cl, type) cl.type = type; clock_gettime(cl.type, &cl.t0)
 #define END_CLOCK(cl) clock_gettime(cl.type, &cl.t1); \
@@ -23,35 +24,37 @@ typedef struct {
 
 // intel guide
 // use cpuid as barrier before, cpuid will clobber(use) all registers
-// =A joins eax/edx to 64-bit long
+// shl/or joins eax/edx to 64-bit long
 // no output vars
 #define START_TSC(cl) __asm__ __volatile__ ( \
-    "cpuid; \
-     rdtsc" \
-    : "=A"(cl.r0) \
+   "cpuid \n\
+    rdtsc \n\
+    shlq $32, %%rdx \n\
+    orq %%rdx, %%rax" \
+    : "=a"(cl.r0) \
     : \
-    : "%rax", "%rbx", "%rcx", "%rdx")
+    : "%rbx", "%rcx", "%rdx")
 
 // shl/or joins eax/edx, then mov to var
 // use cpuid as barrier after, will clobber all registers
 // no output vars
 // =g lets gcc decide howto deal with var
 #define END_TSC(cl) __asm__ __volatile__ ( \
-    "rdtscp; \
-     shl $32, %%rdx; \
-     or %%rdx, %%rax; \
-     mov %%rax, %0; \
-     cpuid" \
+   "rdtscp \n\
+    shlq $32, %%rdx \n\
+    orq %%rdx, %%rax \n\
+    movq %%rax, %0 \n\
+    cpuid" \
     : "=g"(cl.r1) \
     : \
     : "%rax", "%rbx", "%rcx", "%rdx"); \
-    cl.ticks = r1 - r0
+    cl.ticks = cl.r1 - cl.r0
 
 // baseline test
-int clock_overhead(int type)
+clk_t clock_overhead(int type)
 {
-    struct clock cl;
-    int i, sum=0;
+    struct myclock cl;
+    clk_t i, sum=0;
     // warmup
     for (i=0; i<10; ++i)
     {
@@ -70,10 +73,10 @@ int clock_overhead(int type)
     return sum/100;
 }
 
-int tsc_overhead(void)
+clk_t tsc_overhead(void)
 {
-    struct clock cl;
-    int i, sum=0;
+    struct myclock cl;
+    clk_t i, sum=0;
     //warmup
     for (i=0; i<10; ++i)
     {
@@ -92,9 +95,9 @@ int tsc_overhead(void)
     return sum/1000;
 }
 
-clock_t tsc_measure_freq(void)
+clk_t tsc_measure_freq(void)
 {
-    struct clock cl;
+    struct myclock cl;
     START_TSC(cl);
     usleep(1000000);
     END_TSC(cl);
