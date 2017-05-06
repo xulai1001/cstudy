@@ -1,9 +1,12 @@
+#ifndef TIMING_H
+#define TIMING_H
+
 #include "time.h"
 #include "stdio.h"
 #include "linux/types.h"
 #include "stdint.h"
 
-typedef int64_t clock_t;
+typedef uint64_t clock_t;
 
 typedef struct {
     // clock_gettime vars
@@ -14,36 +17,34 @@ typedef struct {
     clock_t ticks, r0, r1;
 } clock;
 
-// http://stackoverflow.com/questions/27049491/can-c-c-preprocessor-macros-have-default-parameter-values
-//#define VARGS_(_2, _1, N, ...) N
-//#define VARGS(...)  VARGS_(__VA_ARGS__, 2, 1, 0)
-//#define CONS_(a, b) a##b
-//#define CONS(a, b) CONS_(a, b)
-//#define START_2(cl, type) cl.type = type; clock_gettime(cl.type, &cl.t0)
-//#define START_1(cl) START_CLOCK(cl, CLOCK_MONOTONIC)
-//#define START(...) CONS(START_, VARGS(__VA_ARGS__))(__VA_ARGS__) 
-
 #define START_CLOCK(cl, type) cl.type = type; clock_gettime(cl.type, &cl.t0)
 #define END_CLOCK(cl) clock_gettime(cl.type, &cl.t1); \
     cl.ns = (cl.t1.tv_sec - cl.t0.tv_sec) * 1000000000 + (cl.t1.tv_nsec - cl.t0.tv_nsec)
 
 // intel guide
+// use cpuid as barrier before, cpuid will clobber(use) all registers
+// =A joins eax/edx to 64-bit long
+// no output vars
 #define START_TSC(cl) __asm__ __volatile__ ( \
-    "cpuid;" \
-    "rdtsc;" \
-    "shl $32, %%rdx;" \
-    "or %%rdx, %%rax" \
-    : "=a"(cl.r0) \
-    :: "%rax", "%rbx", "%rcx", "%rdx")
+    "cpuid; \
+     rdtsc" \
+    : "=A"(cl.r0) \
+    : \
+    : "%rax", "%rbx", "%rcx", "%rdx")
 
+// shl/or joins eax/edx, then mov to var
+// use cpuid as barrier after, will clobber all registers
+// no output vars
+// =g lets gcc decide howto deal with var
 #define END_TSC(cl) __asm__ __volatile__ ( \
-    "rdtscp;" \
-    "shl $32, %%rdx;" \
-    "or %%rdx, %%rax;" \
-    "mov %%rax, %0"
-    "cpuid;" \
-    : "=r"(cl.r1) \
-    :: "%rax", "%rbx", "%rcx", "%rdx"); \
+    "rdtscp; \
+     shl $32, %%rdx; \
+     or %%rdx, %%rax; \
+     mov %%rax, %0; \
+     cpuid" \
+    : "=g"(cl.r1) \
+    : \
+    : "%rax", "%rbx", "%rcx", "%rdx"); \
     cl.ticks = r1 - r0
 
 // baseline test
@@ -99,3 +100,5 @@ clock_t tsc_measure_freq(void)
     END_TSC(cl);
     return cl.ticks;
 }
+
+#endif
