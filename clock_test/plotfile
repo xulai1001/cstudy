@@ -1,0 +1,10 @@
+set ylabel "ticks(log)"
+set xlabel "test"
+set logscale y
+set format y "10^%T"
+set grid
+set terminal png size 960,540
+set output "result.png"
+set datafile separator " "
+plot "result.txt" using 2 title "clock-gettime", 3 title "baseline(tsc)"
+

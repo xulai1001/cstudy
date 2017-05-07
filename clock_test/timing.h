@@ -18,7 +18,7 @@ struct myclock {
     clk_t ticks, r0, r1;
 };
 
-#define START_CLOCK(cl, type) cl.type = type; clock_gettime(cl.type, &cl.t0)
+#define START_CLOCK(cl, tp) cl.type = tp; clock_gettime(cl.type, &cl.t0)
 #define END_CLOCK(cl) clock_gettime(cl.type, &cl.t1); \
     cl.ns = (cl.t1.tv_sec - cl.t0.tv_sec) * 1000000000 + (cl.t1.tv_nsec - cl.t0.tv_nsec)
 
@@ -90,7 +90,8 @@ clk_t tsc_overhead(void)
     {
         START_TSC(cl);
         END_TSC(cl);
-        sum += cl.ticks;
+        if (cl.ticks < 100)     // rule out big values
+            sum += cl.ticks;
     }
     return sum/1000;
 }
