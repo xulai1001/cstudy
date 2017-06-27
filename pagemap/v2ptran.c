@@ -6,62 +6,59 @@
 #include <string.h>
 #include <fcntl.h>
 #include <sys/mman.h>
-#define PM_ENTRY_BYTES sizeof(uint64_t)
-#define GET_BIT(X,Y) (X & ((uint64_t)1<<Y)) >> Y
-#define GET_PFN(X) X & 0x7FFFFFFFFFFFFF
-#define PFN_MASK ((((uint64_t)1)<<55)-1)
-#define PFN_PRESENT_FLAG (((uint64_t)1)<<63)
-const int __endian_bit = 1;
-// 小端模式 Little-Endian ：低位字节排放在内存的低地址端，高位字节排放在内存的高地址端。
-// 大端模式 Big-Endian ： 高位字节排放在内存的低地址端，低位字节排放在内存的高地址端。
-// 是否是大端模式 0 ：否 1 ：是
-#define is_bigendian() ( (*(char*)&__endian_bit) == 0 )
+
+#define GET_BIT(X,Y) (X & (1ul<<Y)) >> Y
+#define PFN_MASK (1ul << 55 - 1)
+#define PFN_PRESENT_FLAG (1ul << 63)
+
 #define page_map_file  "/proc/self/pagemap"
+#define PAGE_SIZE 0x1000ul      
+#define HUGE_SIZE 0x200000ul
+#define pad 0x3377BBFF      //random dumb
 
+#define ASSERT(line) if (!(line)) { fprintf(stderr, "ASSERT error at line %d: " #line "\n", __LINE__); return -1; }
 
+static int fd=-1; 
 
-int mem_addr_vir2phy(unsigned long vir, unsigned long* phy) {
-    int fd;
-    //int page_size=0x200000;
-    int page_size = 0x1000;
-    unsigned long vir_page_idx = vir/page_size;
-    unsigned long pfn_item_offset = vir_page_idx*sizeof(uint64_t);
-    uint64_t pfn_item;
-    fd = open(page_map_file, O_RDONLY);
-    if (fd<0)
-    {
-        printf("open %s failed\n", page_map_file);
-        return -1;
-    }
-    if ((off_t)-1 == lseek(fd, pfn_item_offset, SEEK_SET))
-    {
-        printf("lseek %s failed\n", page_map_file);
-        return -1;
-    }
-    if (sizeof(uint64_t) != read(fd, &pfn_item, sizeof(uint64_t)))
-    {
-        printf("read %s failed\n", page_map_file);
-        return -1;
-    }
-    if (0==(pfn_item & PFN_PRESENT_FLAG))
-    {
-        printf("page is not present\n");
-        return -1;
-    }
-    //printf("%lx\n",(pfn_item & PFN_MASK)*page_size);
-    //printf("%lx\n",vir % page_size);
-    *phy = (pfn_item & PFN_MASK)*page_size + vir % page_size;
-    return 0;
+uint64_t v2p(uint64_t v) {
+    uint64_t vir_page_idx = v / PAGE_SIZE;      // 虚拟页号
+    uint64_t page_offset = v % PAGE_SIZE;       // 页内偏移
+    uint64_t pfn_item_offset = vir_page_idx*sizeof(uint64_t);   // pagemap文件中对应虚拟页号的偏移
+    
+    // 读取pfn
+    uint64_t pfn_item, pfn;
+    ASSERT( lseek(fd, pfn_item_offset, SEEK_SET) != -1 );
+    ASSERT( read(fd, &pfn_item, sizeof(uint64_t)) == sizeof(uint64_t) );
+    ASSERT( pfn_item & PFN_PRESENT_FLAG );  // 确保页面存在
+    pfn = pfn_item & PFN_MASK;              // 取低55位为物理页号
+
+    return pfn * page_size + page_offset;
 }
 
+void test_malloc(void)
+{
+    int *a = malloc(sizeof(int) * HUGE_SIZE);
+    int step = 0x20000, i;
+    for (i=0; i<HUGE_SIZE; i+=step)
+        a[i]=pad;
+    for (i=0; i<HUGE_SIZE; i+=step)
+        printf("a[%d], v = 0x%x, p = 0x%x\n", i, &a[i], v2p(&a[i]));
+    free(a);
+}
 
-
-
+int main(void)
+{
+    printf("open %s...\n", page_map_file);
+    ASSERT( (fd = open(page_map_file, O_RDONLY)) > 0 );
+    test_malloc();
+    return 0;
+}
+/*
 int main(int argc, char *argv[]) {
   char *m;
   size_t s = (10UL * 1024 * 1024);
   m = mmap(NULL, s, PROT_READ | PROT_WRITE,
-                    MAP_PRIVATE | MAP_ANONYMOUS | 0x40000 /*MAP_HUGETLB*/, -1, 0);
+                    MAP_PRIVATE | MAP_ANONYMOUS | 0x40000, -1, 0);
   if (m == MAP_FAILED) {
     perror("map mem");
     m = NULL;
@@ -101,4 +98,4 @@ int main(int argc, char *argv[]) {
 }
 
 
-
+*/
