@@ -8,7 +8,7 @@
 #include <sys/mman.h>
 
 #define GET_BIT(X,Y) (X & (1ul<<Y)) >> Y
-#define PFN_MASK (1ul << 55 - 1)
+#define PFN_MASK ((1ul << 55) - 1)
 #define PFN_PRESENT_FLAG (1ul << 63)
 
 #define page_map_file  "/proc/self/pagemap"
@@ -32,7 +32,9 @@ uint64_t v2p(uint64_t v) {
     ASSERT( pfn_item & PFN_PRESENT_FLAG );  // 确保页面存在
     pfn = pfn_item & PFN_MASK;              // 取低55位为物理页号
 
-    return pfn * page_size + page_offset;
+ //   printf("here vir=0x%lx, item=0x%lx, pfn=0x%lx, offset=%ld\n", v, pfn_item, pfn, page_offset);
+
+    return pfn * PAGE_SIZE + page_offset;
 }
 
 void test_malloc(void)
@@ -42,7 +44,7 @@ void test_malloc(void)
     for (i=0; i<HUGE_SIZE; i+=step)
         a[i]=pad;
     for (i=0; i<HUGE_SIZE; i+=step)
-        printf("a[%d], v = 0x%x, p = 0x%x\n", i, &a[i], v2p(&a[i]));
+        printf("a[%d], v = 0x%lx, p = 0x%lx\n", i, &a[i], v2p(&a[i]));
     free(a);
 }
 
