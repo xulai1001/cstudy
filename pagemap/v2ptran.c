@@ -57,7 +57,7 @@ int test_mmap(void)
 {
     printf("test_mmap...\n");
     uint8_t *m;
-    uint64_t size = 10 * HUGE_SIZE, step=0x100000, i;
+    uint64_t size = 32 * HUGE_SIZE, step=HUGE_SIZE, i;
     ASSERT((m = mmap(0, size, PROT_READ | PROT_WRITE,
                          MAP_PRIVATE | MAP_ANONYMOUS | 0x40000, -1, 0)) != MAP_FAILED);
     memset(m, 0, size);
