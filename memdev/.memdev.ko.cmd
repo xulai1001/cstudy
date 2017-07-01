@@ -1,0 +1,1 @@
+cmd_/home/islab/snippets/cstudy/memdev/memdev.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/islab/snippets/cstudy/memdev/memdev.ko /home/islab/snippets/cstudy/memdev/memdev.o /home/islab/snippets/cstudy/memdev/memdev.mod.o

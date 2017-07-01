@@ -2,14 +2,16 @@
 #include "memdev.h"
 
 MODULE_LICENSE("GPL");
+MODULE_AUTHOR("viktorxu");
 
 int md_major, md_minor;
 struct class *md_class;
 struct mem_dev md_dev;
-struct class_device *md_device;
+struct device *md_device;
 
-static char *pool;
-
+static char pool[128 * 1048576];
+static char *map_base;
+static char riddle[] = "A quick brown fox";
 //fops defs
 int md_open(struct inode *inode, struct file *fp)
 {
@@ -20,8 +22,14 @@ int md_open(struct inode *inode, struct file *fp)
 
 int md_mmap(struct file *fp, struct vm_area_struct *vma)
 {
-    //stub
-    return 0;
+    vma->vm_flags |= VM_IO;
+    
+    int ret = remap_pfn_range(vma, vma->vm_start, 
+                           virt_to_phys(map_base) >> PAGE_SHIFT,
+                           vma->vm_end - vma->vm_start, 
+                           vma->vm_page_prot);
+    printk("mem_dev: request mmap size = %d, ret=%d\n", vma->vm_end-vma->vm_start, ret);
+    return ret;
 }
 
 struct file_operations md_fops = {
@@ -42,7 +50,7 @@ int md_create(void)
     cdev_init(&md_dev.cdev, &md_fops);
     md_dev.cdev.owner = THIS_MODULE;
     assert( 0 == cdev_add(&md_dev.cdev, devno, 1) );
-    md_device = class_device_create(md_class, 0, devno, 0, "md_device");
+    md_device = device_create(md_class, 0, devno, 0, "md_device");
     printk("mem_dev: ok\n");
     return 0;
 }
@@ -60,9 +68,20 @@ void md_destroy(void)
 static int __init md_init(void)
 {
     printk("mem_dev: init module\n");
-    printk("mem_dev: alloc memory\n");
-    pool = (char *)__get_free_pages(GFP_KERNEL, 15);    // 128MB
     printk("mem_dev: 128MB pool at 0x%lx\n", pool);
+    int zeros=26;
+    unsigned long mask = ~((1ull<<zeros) - 1);
+    map_base = (char *)((((unsigned long)pool) & mask) + (1ull<<zeros));
+    printk("mem_dev: map_base at 0x%lx\n", map_base);
+    strncpy(map_base, riddle, sizeof(riddle));
+
+    //for (i=0; i<16; ++i)
+    //{
+        // gfp cannot allocate >4MB, crap
+        //pool = (char *)__get_free_pages(GFP_USER | GFP_ATOMIC, i);    // 128MB
+        //printk("mem_dev: %d kB pool at 0x%lx\n", (1<<i)*4, pool);
+        //free_pages(pool, i);
+    //}
     md_create();
     return 0;
 }
@@ -70,6 +89,9 @@ static int __init md_init(void)
 static void __exit md_exit(void)
 {
     md_destroy();
-    kfree(pool);
+    //kfree(pool);
     printk("mem_dev: module exit.\n");
 }
+
+module_init(md_init);
+module_exit(md_exit);

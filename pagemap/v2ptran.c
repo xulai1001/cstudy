@@ -13,7 +13,7 @@
 
 #define page_map_file  "/proc/self/pagemap"
 #define page_flag_file "/proc/kpageflags"
-#define mem_file "/dev/mem"
+#define mem_file "/dev/md_device"
 #define PAGE_SIZE 0x1000ul      
 #define HUGE_SIZE 0x200000ul
 
@@ -69,17 +69,13 @@ int test_mmap(void)
 
 int test_devmem(void)
 {
-    printf("test /dev/mem...\n");
-    char str[] = "A quick brown fox jumps over the lazy dog.";
+    printf("test /dev/md_device...\n");
     char *page;
-    uint64_t p = v2p(str), page_start = p & ~0xffful;
     
-    printf("v = 0x%lx, p = 0x%lx, page_start = 0x%lx\n", (uint64_t)str, p, page_start);
-
-    ASSERT( (page = mmap(0, PAGE_SIZE, PROT_READ,
-                             MAP_SHARED, mem_fd, page_start)) != MAP_FAILED);
+    ASSERT( (page = mmap(0, HUGE_SIZE, PROT_READ,
+                             MAP_SHARED, mem_fd, 0)) != MAP_FAILED);
                              
-    printf("v = 0x%lx, p = 0x%lx, read = %s\n", (uint64_t)str, p, page[p & 0xfff]);
+    printf("v = 0x%lx, p = 0x%lx, read = %s\n", page, v2p(page), page);
     return 0;
 }
 
@@ -89,9 +85,9 @@ int main(void)
     ASSERT( (fd = open(page_map_file, O_RDONLY)) > 0 );
     ASSERT( (flag_fd = open(page_flag_file, O_RDONLY)) > 0 );
     ASSERT( (mem_fd = open(mem_file, O_RDONLY)) > 0 );
-    test_malloc();
-    test_mmap();
-  //  test_devmem();    // can't do without rebuild kernel
+   // test_malloc();
+  //  test_mmap();
+    test_devmem();    // can't do without rebuild kernel
     
     return 0;
 }

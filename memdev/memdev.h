@@ -10,6 +10,10 @@
 #include "linux/cdev.h"
 #include "linux/device.h"
 #include "linux/gfp.h"
+#include "linux/fs.h"
+#include "linux/slab.h"
+#include "asm/io.h"
+#include "linux/mm.h"
 
 #define assert(expr) if (!(expr)) { printk("mem_dev:%d: ASSERT FAIL " # expr " failed!\n", \
                         __LINE__); return 0;}
@@ -25,7 +29,7 @@ struct mem_dev
 extern int md_major, md_minor;
 extern struct class *md_class;
 extern struct mem_dev md_dev;
-extern struct class_device *md_device;
+extern struct device *md_device;
 extern struct file_operations md_fops;
 #endif
 
