@@ -13,7 +13,9 @@
 #include "linux/fs.h"
 #include "linux/slab.h"
 #include "asm/io.h"
+#include "asm/page.h"
 #include "linux/mm.h"
+#include "linux/vmalloc.h"
 
 #define assert(expr) if (!(expr)) { printk("mem_dev:%d: ASSERT FAIL " # expr " failed!\n", \
                         __LINE__); return 0;}
