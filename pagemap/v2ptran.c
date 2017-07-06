@@ -80,6 +80,19 @@ void test_malloc(void)
     free(a);
 }
 
+void analyse_chunks(void)
+{
+    int i=1, l=0, c=0;
+    while (i<npages)
+    {
+        while (i<npages && pages[i].p-pages[i-1].p == HUGE_SIZE) ++i;
+        printf("chunk #%d: 0x%lx -> 0x%lx, %d pages\n", ++c, pages[l].p, pages[i-1].p, (pages[i-1].p-pages[l].p)/HUGE_SIZE+1);
+        l=i; ++i;
+    }
+    if (l==i-1) printf("chunk #%d: 0x%lx (1 page)\n", ++c, pages[l].p);
+    printf("%d chunks.\n", c);
+}
+
 int test_mmap(void)
 {
     printf("test_mmap...\n");
@@ -101,9 +114,9 @@ int test_mmap(void)
 
     qsort_pages(0, npages-1);
     printf ("----------------------\n");
-
-    for (i=0; i<npages; ++i)
-        printf("v = 0x%lx, p = 0x%lx\n", pages[i].v, pages[i].p);
+    analyse_chunks();
+//    for (i=0; i<npages; ++i)
+//        printf("v = 0x%lx, p = 0x%lx\n", pages[i].v, pages[i].p);
     munmap(m, size);
     return 0;
 }
