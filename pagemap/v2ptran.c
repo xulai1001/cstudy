@@ -19,7 +19,34 @@
 
 #define ASSERT(line) if (!(line)) { fprintf(stderr, "ASSERT error at line %d: " #line, __LINE__); perror(" "); return -1; }
 
+struct hugepage { 
+    void *v;
+    uint64_t p;
+};
+
+static struct hugepage pages[1000];
+static int npages = 0;
+
 static int fd=-1, flag_fd=-1, mem_fd=-1; 
+
+void qsort_pages(int l, int r)
+{
+    if (l>=r) return;
+    struct hugepage h = pages[l], tmp;
+    int m, i=l, j=r;
+    
+    while (i<j)
+    {
+        while (j>i && pages[j].p >= h.p) --j;
+        if (j>=i) pages[i] = pages[j];
+        while (i<j && pages[i].p <= h.p) ++i;
+        if (i<=j) pages[j] = pages[i];
+    }
+    pages[i] = h;
+
+    qsort_pages(l, i);
+    qsort_pages(i+1, r);
+}
 
 uint64_t v2p(void *v) {
     uint64_t vir_page_idx = (uint64_t)v / PAGE_SIZE;      // 虚拟页号
@@ -38,7 +65,7 @@ uint64_t v2p(void *v) {
     ASSERT( lseek(flag_fd, pfn*sizeof(uint64_t), SEEK_SET) != -1);
     ASSERT( read(flag_fd, &page_flags, sizeof(uint64_t)) == sizeof(uint64_t) );
 
-    printf("here vir=0x%lx, item=0x%lx, pfn=0x%lx, offset=%ld, flag=0x%lx\n", v, pfn_item, pfn, page_offset, page_flags);
+   // printf("here vir=0x%lx, item=0x%lx, pfn=0x%lx, offset=%ld, flag=0x%lx\n", v, pfn_item, pfn, page_offset, page_flags);
 
     return pfn * PAGE_SIZE + page_offset;
 }
@@ -57,12 +84,26 @@ int test_mmap(void)
 {
     printf("test_mmap...\n");
     uint8_t *m;
-    uint64_t size = 32 * HUGE_SIZE, step=HUGE_SIZE, i;
+    uint64_t size = 256 * HUGE_SIZE, step=HUGE_SIZE, i;
     ASSERT((m = mmap(0, size, PROT_READ | PROT_WRITE,
                          MAP_PRIVATE | MAP_ANONYMOUS | 0x40000, -1, 0)) != MAP_FAILED);
     memset(m, 0, size);
+    printf("Base address: 0x%lx\n", m);
+
     for (i=0; i<size; i+=step)
-        printf("offset = 0x%lx, v = 0x%lx, p = 0x%lx\n", i, (uint64_t)m+i, v2p((uint64_t)m+i));    
+    {        
+        pages[npages].v = (void *)((uint64_t)m+i);
+        pages[npages].p = v2p(pages[npages].v);
+
+        printf("offset = 0x%lx, p = 0x%lx\n", i, pages[npages].p);
+        ++npages;
+    }
+
+    qsort_pages(0, npages-1);
+    printf ("----------------------\n");
+
+    for (i=0; i<npages; ++i)
+        printf("v = 0x%lx, p = 0x%lx\n", pages[i].v, pages[i].p);
     munmap(m, size);
     return 0;
 }
@@ -84,10 +125,10 @@ int main(void)
     printf("open %s...\n", page_map_file);
     ASSERT( (fd = open(page_map_file, O_RDONLY)) > 0 );
     ASSERT( (flag_fd = open(page_flag_file, O_RDONLY)) > 0 );
-    ASSERT( (mem_fd = open(mem_file, O_RDONLY)) > 0 );
+    //ASSERT( (mem_fd = open(mem_file, O_RDONLY)) > 0 );
    // test_malloc();
-  //  test_mmap();
-    test_devmem();    // can't do without rebuild kernel
+    test_mmap();
+    //test_devmem();
     
     return 0;
 }
