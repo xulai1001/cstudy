@@ -199,22 +199,23 @@ uint64_t latency(int x, int y=-1, int z=-1)
         START_TSC(clk);
         for (i=0; i<ntime; ++i)
         {
-            // access both addresses
-            (*a)--; (*b)--;
-            // clflush + mfence
             __asm__ __volatile (
-               "clflush %0 \n\t"
-               "clflush %1 \n\t"
+               // access both addresses
+               "movq (%0), %%rax \n\t"
+               "movq (%1), %%rax \n\t"
+               // clflush + mfence
+               "clflush (%0) \n\t"
+               "clflush (%1) \n\t"
                "mfence"
-                :"=m"(a), "=m"(b)
                 :
-                :"memory"
+                :"r"(a), "r"(b)
+                :"rax", "memory"
             );
         }        
         END_TSC(clk);
         sum += clk.ticks;
        // cout << "seed a=" << hex << (uint64_t)v2p(a) << ", b=" << (uint64_t)v2p(b) << " avg ticks=" << dec << sum/200 << endl;
-        if (min>sum/ntime) min = sum/ntime;
+        if (min>sum/ntime/2) min = sum/ntime/2;
     }
     return min;
 }
