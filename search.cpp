@@ -167,57 +167,51 @@ void cleanup(bool mark)
     cout << dec << nn << " pages released." << endl;
 }
 
-void genseed(int n, int order)
-{
-    srand(time(0));
-    seed.clear();
-    for (int i=0; i<n; ++i) seed.insert(rand() % (1<<order));
-    while (seed.size() < n) seed.insert(rand() % (1<<order));
-    
-    //for (auto s: seed) cout << s << endl;
-}
+#define HAMMER(a, b) __asm__ __volatile__( \
+    "movq (%0), %%rax \n\t" \
+    "movq (%1), %%rax \n\t" \
+    "clflush (%0) \n\t" \
+    "clflush (%1) \n\t" \
+    "mfence" \
+    :   \
+    :"r"(a), "r"(b) \
+    :"rax", "memory")
 
-// obf latency routine!
-uint64_t latency(int x, int y=-1, int z=-1)
+void search(int order, int ntime=9999, int lowest_row_bit=22)
 {
-    int ntime = 200; 
-    uint64_t *a, *b;        // a: all 0 in given bits, b: all 1 in given bits
-    uint64_t mask = (1 << x);
+    uint64_t *a, *v1, *v2, *b;
+    uint64_t seed, low, high;
     uint64_t pbase = pages[0].p;
-    int i, sum, min=9999;
-    myclock clk;
+    int i;
     
-    if (y>=0) mask |= (1 << y);
-    if (z>=0) mask |= (1 << z);
-    
-    for (auto s : seed)
+    // build mem address
+    // pbase + {[high bits] [lowest 2 row bits] [low bits]}
+    for (high=0; high < (1 << (order-lowest_row_bit-1)); ++high)
     {
-        a = (uint64_t *)p2v(pbase + (s & ~mask));
-        b = (uint64_t *)p2v(pbase + (s | mask));
-        sum = 0;
-        
-        START_TSC(clk);
+        low=0;
+        seed = pbase | (high << (lowest_row_bit+2)) | low;
+        a    = (uint64_t *)p2v(seed);
+        v1   = (uint64_t *)p2v(seed | (1 << lowest_row_bit));
+        v2   = (uint64_t *)p2v(seed | (2 << lowest_row_bit));
+        b    = (uint64_t *)p2v(seed | (3 << lowest_row_bit));
+    
+        // test v1
+        *v1 = 0x5A5A5A5A5A5A5A5Aull;
+        *a  = 0xA5A5A5A5A5A5A5A5ull;
+        *b  = 0x5A5A5A5A5A5A5A5Aull;
         for (i=0; i<ntime; ++i)
         {
-            __asm__ __volatile (
-               // access both addresses
-               "movq (%0), %%rax \n\t"
-               "movq (%1), %%rax \n\t"
-               // clflush + mfence
-               "clflush (%0) \n\t"
-               "clflush (%1) \n\t"
-               "mfence"
-                :
-                :"r"(a), "r"(b)
-                :"rax", "memory"
-            );
-        }        
-        END_TSC(clk);
-        sum += clk.ticks;
-       // cout << "seed a=" << hex << (uint64_t)v2p(a) << ", b=" << (uint64_t)v2p(b) << " avg ticks=" << dec << sum/200 << endl;
-        if (min>sum/ntime/2) min = sum/ntime/2;
+            HAMMER(a, v2);
+        }
+        cout << "hammering " << hex << (seed | (1 << lowest_row_bit))
+             << " a=" << seed << " v2=" << (seed | (2 << lowest_row_bit))
+             << " result: " << *v1 << endl;
+        if (*v1 != 0x5A5A5A5A5A5A5A5Aull)
+        {
+            cout << "----------------------------------------" << endl;
+            return;
+        }
     }
-    return min;
 }
 
 int main(void)
@@ -227,12 +221,7 @@ int main(void)
     cleanup(false);
     
     for (auto p : pages) p.print();
-    
-    genseed(100, 25);
-    for (int j=0; j<2; ++j)
-    for (int i=0; i<26; ++i)
-        cout << dec <<  "Min Latency for bit #" << i << " = " << latency(i) << endl; 
-    
+    search(25);
     cleanup(true);
     return 0;
 }
