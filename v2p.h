@@ -39,6 +39,4 @@ uint64_t v2p(void *v) {
     return pfn * PAGE_SIZE + page_offset;
 }
 
-void 
-
 #endif

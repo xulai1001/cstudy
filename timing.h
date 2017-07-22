@@ -1,5 +1,5 @@
-#ifndef TIMING_H
-#define TIMING_H
+#ifndef _TIMING_H
+#define _TIMING_H
 
 #include "time.h"
 #include "stdio.h"
@@ -17,6 +17,13 @@ struct myclock {
     // rdtsc vars
     clk_t ticks, r0, r1;
 };
+
+#ifndef _TIMING_VARS
+#define _TIMING_VARS
+clk_t clk_freq = -1;
+#else
+extern clk_t clk_freq;
+#endif
 
 #define START_CLOCK(cl, tp) cl.type = tp; clock_gettime(cl.type, &cl.t0)
 #define END_CLOCK(cl) clock_gettime(cl.type, &cl.t1); \
@@ -99,10 +106,18 @@ clk_t tsc_overhead(void)
 clk_t tsc_measure_freq(void)
 {
     struct myclock cl;
+    printf("tsc_measure_freq...");
     START_TSC(cl);
     usleep(1000000);
     END_TSC(cl);
+    printf("%ld MHz(Mticks/sec)\n", cl.ticks / 1000000);
     return cl.ticks;
+}
+
+clk_t tsc_to_ns(clk_t ticks)
+{
+    if (clk_freq<0) clk_freq = tsc_measure_freq();
+    return ticks * 1000000000 / clk_freq;    
 }
 
 #endif
