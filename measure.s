@@ -9,12 +9,12 @@
 	.weak	_ZNKSt5ctypeIcE8do_widenEc
 	.type	_ZNKSt5ctypeIcE8do_widenEc, @function
 _ZNKSt5ctypeIcE8do_widenEc:
-.LFB1157:
+.LFB1210:
 	.cfi_startproc
 	movl	%esi, %eax
 	ret
 	.cfi_endproc
-.LFE1157:
+.LFE1210:
 	.size	_ZNKSt5ctypeIcE8do_widenEc, .-_ZNKSt5ctypeIcE8do_widenEc
 	.section	.text.unlikely._ZNKSt5ctypeIcE8do_widenEc,"axG",@progbits,_ZNKSt5ctypeIcE8do_widenEc,comdat
 .LCOLDE0:
@@ -30,7 +30,7 @@ _ZNKSt5ctypeIcE8do_widenEc:
 	.weak	_ZNSt6vectorI8HugePageSaIS0_EED2Ev
 	.type	_ZNSt6vectorI8HugePageSaIS0_EED2Ev, @function
 _ZNSt6vectorI8HugePageSaIS0_EED2Ev:
-.LFB8335:
+.LFB8421:
 	.cfi_startproc
 	movq	(%rdi), %rdi
 	testq	%rdi, %rdi
@@ -41,7 +41,7 @@ _ZNSt6vectorI8HugePageSaIS0_EED2Ev:
 .L2:
 	rep ret
 	.cfi_endproc
-.LFE8335:
+.LFE8421:
 	.size	_ZNSt6vectorI8HugePageSaIS0_EED2Ev, .-_ZNSt6vectorI8HugePageSaIS0_EED2Ev
 	.section	.text.unlikely._ZNSt6vectorI8HugePageSaIS0_EED2Ev,"axG",@progbits,_ZNSt6vectorI8HugePageSaIS0_EED5Ev,comdat
 .LCOLDE1:
@@ -54,9 +54,9 @@ _ZNSt6vectorI8HugePageSaIS0_EED2Ev:
 	.text
 .LHOTB2:
 	.p2align 4,,15
-	.type	_ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops14_Val_less_iterEEvT_T0_.isra.50, @function
-_ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops14_Val_less_iterEEvT_T0_.isra.50:
-.LFB8918:
+	.type	_ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops14_Val_less_iterEEvT_T0_.isra.49, @function
+_ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops14_Val_less_iterEEvT_T0_.isra.49:
+.LFB8997:
 	.cfi_startproc
 	movq	8(%rdi), %rcx
 	cmpq	-16(%rdi), %rcx
@@ -85,8 +85,8 @@ _ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vect
 	movl	%esi, 20(%rdi)
 	ret
 	.cfi_endproc
-.LFE8918:
-	.size	_ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops14_Val_less_iterEEvT_T0_.isra.50, .-_ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops14_Val_less_iterEEvT_T0_.isra.50
+.LFE8997:
+	.size	_ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops14_Val_less_iterEEvT_T0_.isra.49, .-_ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops14_Val_less_iterEEvT_T0_.isra.49
 	.section	.text.unlikely
 .LCOLDE2:
 	.text
@@ -99,7 +99,7 @@ _ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vect
 	.globl	clock_overhead
 	.type	clock_overhead, @function
 clock_overhead:
-.LFB8233:
+.LFB8318:
 	.cfi_startproc
 	pushq	%r14
 	.cfi_def_cfa_offset 16
@@ -120,6 +120,9 @@ clock_overhead:
 	movl	$10, %ebx
 	subq	$80, %rsp
 	.cfi_def_cfa_offset 128
+	movq	%fs:40, %rax
+	movq	%rax, 72(%rsp)
+	xorl	%eax, %eax
 	leaq	16(%rsp), %r13
 	leaq	32(%rsp), %r12
 	.p2align 4,,10
@@ -165,25 +168,32 @@ clock_overhead:
 	jne	.L11
 	shrq	$2, %r12
 	movabsq	$2951479051793528259, %rdx
-	addq	$80, %rsp
-	.cfi_def_cfa_offset 48
 	movq	%r12, %rax
 	mulq	%rdx
+	movq	%rdx, %rax
+	shrq	$2, %rax
+	movq	72(%rsp), %rcx
+	xorq	%fs:40, %rcx
+	jne	.L16
+	addq	$80, %rsp
+	.cfi_remember_state
+	.cfi_def_cfa_offset 48
 	popq	%rbx
 	.cfi_def_cfa_offset 40
 	popq	%rbp
 	.cfi_def_cfa_offset 32
 	popq	%r12
 	.cfi_def_cfa_offset 24
-	movq	%rdx, %rax
-	shrq	$2, %rax
 	popq	%r13
 	.cfi_def_cfa_offset 16
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	ret
+.L16:
+	.cfi_restore_state
+	call	__stack_chk_fail
 	.cfi_endproc
-.LFE8233:
+.LFE8318:
 	.size	clock_overhead, .-clock_overhead
 	.section	.text.unlikely
 .LCOLDE3:
@@ -197,7 +207,7 @@ clock_overhead:
 	.globl	tsc_overhead
 	.type	tsc_overhead, @function
 tsc_overhead:
-.LFB8234:
+.LFB8319:
 	.cfi_startproc
 	pushq	%rbx
 	.cfi_def_cfa_offset 16
@@ -205,15 +215,15 @@ tsc_overhead:
 	movl	$10, %esi
 	.p2align 4,,10
 	.p2align 3
-.L16:
+.L18:
 #APP
-# 83 "timing.h" 1
+# 90 "timing.h" 1
 	cpuid 
     rdtsc 
     shlq $32, %rdx 
     orq %rdx, %rax
 # 0 "" 2
-# 84 "timing.h" 1
+# 91 "timing.h" 1
 	rdtscp 
     shlq $32, %rdx 
     orq %rdx, %rax 
@@ -222,14 +232,14 @@ tsc_overhead:
 # 0 "" 2
 #NO_APP
 	subq	$1, %rsi
-	jne	.L16
+	jne	.L18
 	movl	$1000, %r8d
 	xorl	%edi, %edi
 	.p2align 4,,10
 	.p2align 3
-.L18:
+.L20:
 #APP
-# 91 "timing.h" 1
+# 98 "timing.h" 1
 	cpuid 
     rdtsc 
     shlq $32, %rdx 
@@ -238,7 +248,7 @@ tsc_overhead:
 #NO_APP
 	movq	%rax, %r9
 #APP
-# 92 "timing.h" 1
+# 99 "timing.h" 1
 	rdtscp 
     shlq $32, %rdx 
     orq %rdx, %rax 
@@ -251,7 +261,7 @@ tsc_overhead:
 	cmpq	$99, %rsi
 	cmovbe	%rax, %rdi
 	subq	$1, %r8
-	jne	.L18
+	jne	.L20
 	shrq	$3, %rdi
 	movabsq	$2361183241434822607, %rdx
 	movq	%rdi, %rax
@@ -262,21 +272,26 @@ tsc_overhead:
 	shrq	$4, %rax
 	ret
 	.cfi_endproc
-.LFE8234:
+.LFE8319:
 	.size	tsc_overhead, .-tsc_overhead
 	.section	.text.unlikely
 .LCOLDE4:
 	.text
 .LHOTE4:
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.LC5:
+	.string	"tsc_measure_freq..."
+.LC6:
+	.string	"%ld MHz(Mticks/sec)\n"
 	.section	.text.unlikely
-.LCOLDB5:
+.LCOLDB7:
 	.text
-.LHOTB5:
+.LHOTB7:
 	.p2align 4,,15
 	.globl	tsc_measure_freq
 	.type	tsc_measure_freq, @function
 tsc_measure_freq:
-.LFB8235:
+.LFB8320:
 	.cfi_startproc
 	pushq	%rbp
 	.cfi_def_cfa_offset 16
@@ -284,10 +299,14 @@ tsc_measure_freq:
 	pushq	%rbx
 	.cfi_def_cfa_offset 24
 	.cfi_offset 3, -24
+	movl	$.LC5, %esi
+	movl	$1, %edi
+	xorl	%eax, %eax
 	subq	$8, %rsp
 	.cfi_def_cfa_offset 32
+	call	__printf_chk
 #APP
-# 102 "timing.h" 1
+# 110 "timing.h" 1
 	cpuid 
     rdtsc 
     shlq $32, %rdx 
@@ -298,7 +317,7 @@ tsc_measure_freq:
 	movq	%rax, %rbp
 	call	usleep
 #APP
-# 104 "timing.h" 1
+# 112 "timing.h" 1
 	rdtscp 
     shlq $32, %rdx 
     orq %rdx, %rax 
@@ -306,42 +325,72 @@ tsc_measure_freq:
     cpuid
 # 0 "" 2
 #NO_APP
+	movq	%rsi, %rbx
+	movabsq	$4835703278458516699, %rdx
+	movl	$.LC6, %esi
+	subq	%rbp, %rbx
+	movl	$1, %edi
+	movq	%rbx, %rax
+	mulq	%rdx
+	xorl	%eax, %eax
+	shrq	$18, %rdx
+	call	__printf_chk
 	addq	$8, %rsp
 	.cfi_def_cfa_offset 24
-	movq	%rsi, %rax
-	subq	%rbp, %rax
+	movq	%rbx, %rax
 	popq	%rbx
 	.cfi_def_cfa_offset 16
 	popq	%rbp
 	.cfi_def_cfa_offset 8
 	ret
 	.cfi_endproc
-.LFE8235:
+.LFE8320:
 	.size	tsc_measure_freq, .-tsc_measure_freq
 	.section	.text.unlikely
-.LCOLDE5:
+.LCOLDE7:
 	.text
-.LHOTE5:
+.LHOTE7:
+	.section	.text.unlikely
+.LCOLDB8:
+	.text
+.LHOTB8:
+	.p2align 4,,15
+	.globl	tsc_to_ns
+	.type	tsc_to_ns, @function
+tsc_to_ns:
+.LFB8321:
+	.cfi_startproc
+	imulq	$1000000000, %rdi, %rax
+	xorl	%edx, %edx
+	divq	clk_freq(%rip)
+	ret
+	.cfi_endproc
+.LFE8321:
+	.size	tsc_to_ns, .-tsc_to_ns
+	.section	.text.unlikely
+.LCOLDE8:
+	.text
+.LHOTE8:
 	.section	.rodata.str1.8,"aMS",@progbits,1
 	.align 8
-.LC6:
+.LC9:
 	.string	"ASSERT error at line %d: lseek(fd, pfn_item_offset, SEEK_SET) != -1"
-	.section	.rodata.str1.1,"aMS",@progbits,1
-.LC7:
+	.section	.rodata.str1.1
+.LC10:
 	.string	" "
 	.section	.rodata.str1.8
 	.align 8
-.LC8:
+.LC11:
 	.string	"ASSERT error at line %d: read(fd, &pfn_item, sizeof(uint64_t)) == sizeof(uint64_t)"
 	.section	.text.unlikely
-.LCOLDB9:
+.LCOLDB12:
 	.text
-.LHOTB9:
+.LHOTB12:
 	.p2align 4,,15
 	.globl	_Z3v2pPv
 	.type	_Z3v2pPv, @function
 _Z3v2pPv:
-.LFB8236:
+.LFB8322:
 	.cfi_startproc
 	pushq	%rbp
 	.cfi_def_cfa_offset 16
@@ -357,116 +406,126 @@ _Z3v2pPv:
 	.cfi_def_cfa_offset 48
 	leaq	0(,%rdi,8), %rsi
 	movl	fd(%rip), %edi
+	movq	%fs:40, %rax
+	movq	%rax, 8(%rsp)
+	xorl	%eax, %eax
 	call	lseek
 	cmpq	$-1, %rax
-	je	.L28
+	je	.L32
 	movl	fd(%rip), %edi
-	leaq	8(%rsp), %rsi
 	movl	$8, %edx
+	movq	%rsp, %rsi
 	call	read
 	cmpq	$8, %rax
-	jne	.L29
+	jne	.L33
 	movabsq	$36028797018963967, %rax
-	andq	8(%rsp), %rax
+	andq	(%rsp), %rax
+	salq	$12, %rax
+	addq	%rbx, %rax
+	movq	8(%rsp), %rcx
+	xorq	%fs:40, %rcx
+	jne	.L34
 	addq	$24, %rsp
 	.cfi_remember_state
 	.cfi_def_cfa_offset 24
-	salq	$12, %rax
-	addq	%rbx, %rax
 	popq	%rbx
 	.cfi_def_cfa_offset 16
 	popq	%rbp
 	.cfi_def_cfa_offset 8
 	ret
-.L28:
+.L32:
 	.cfi_restore_state
 	movq	stderr(%rip), %rdi
 	movq	%rax, %rbp
-	movl	$42, %edx
-	movl	$.LC6, %esi
+	movl	$42, %ecx
+	movl	$.LC9, %edx
+	movl	$1, %esi
 	xorl	%eax, %eax
-	call	fprintf
-	movl	$.LC7, %edi
+	call	__fprintf_chk
+	movl	$.LC10, %edi
 	call	perror
 	movl	%ebp, %edi
 	call	exit
-.L29:
+.L34:
+	call	__stack_chk_fail
+.L33:
 	movq	stderr(%rip), %rdi
-	movl	$43, %edx
-	movl	$.LC8, %esi
+	movl	$43, %ecx
+	movl	$.LC11, %edx
+	movl	$1, %esi
 	xorl	%eax, %eax
-	call	fprintf
-	movl	$.LC7, %edi
+	call	__fprintf_chk
+	movl	$.LC10, %edi
 	call	perror
 	orl	$-1, %edi
 	call	exit
 	.cfi_endproc
-.LFE8236:
+.LFE8322:
 	.size	_Z3v2pPv, .-_Z3v2pPv
 	.section	.text.unlikely
-.LCOLDE9:
+.LCOLDE12:
 	.text
-.LHOTE9:
+.LHOTE12:
 	.section	.text.unlikely
-.LCOLDB10:
+.LCOLDB13:
 	.text
-.LHOTB10:
+.LHOTB13:
 	.p2align 4,,15
 	.globl	_Z3p2vm
 	.type	_Z3p2vm, @function
 _Z3p2vm:
-.LFB8247:
+.LFB8333:
 	.cfi_startproc
 	movq	pages(%rip), %rdx
 	movq	pages+8(%rip), %rcx
 	movq	%rdi, %rsi
 	andl	$2097151, %esi
 	cmpq	%rcx, %rdx
-	je	.L31
+	je	.L36
 	subq	%rsi, %rdi
 	cmpq	%rdi, 8(%rdx)
 	movq	(%rdx), %rax
-	je	.L32
+	je	.L37
 	addq	$24, %rdx
-	jmp	.L34
+	jmp	.L39
 	.p2align 4,,10
 	.p2align 3
-.L35:
+.L40:
 	movq	(%rdx), %rax
 	addq	$24, %rdx
 	cmpq	%rdi, -16(%rdx)
-	je	.L32
-.L34:
+	je	.L37
+.L39:
 	cmpq	%rdx, %rcx
-	jne	.L35
-.L31:
+	jne	.L40
+.L36:
 	rep ret
 	.p2align 4,,10
 	.p2align 3
-.L32:
+.L37:
 	addq	%rsi, %rax
 	ret
 	.cfi_endproc
-.LFE8247:
+.LFE8333:
 	.size	_Z3p2vm, .-_Z3p2vm
 	.section	.text.unlikely
-.LCOLDE10:
+.LCOLDE13:
 	.text
-.LHOTE10:
+.LHOTE13:
 	.section	.rodata.str1.1
-.LC11:
+.LC14:
 	.string	"cleanup usused pages..."
-.LC12:
+.LC15:
 	.string	" pages released."
 	.section	.text.unlikely
-.LCOLDB13:
+.LCOLDB16:
 	.text
-.LHOTB13:
+.LHOTB16:
 	.p2align 4,,15
 	.globl	_Z7cleanupb
 	.type	_Z7cleanupb, @function
 _Z7cleanupb:
-.LFB8248:
+.LFB8334:
 	.cfi_startproc
 	pushq	%r13
 	.cfi_def_cfa_offset 16
@@ -482,7 +541,7 @@ _Z7cleanupb:
 	.cfi_def_cfa_offset 40
 	.cfi_offset 3, -40
 	movl	%edi, %r12d
-	movl	$.LC11, %esi
+	movl	$.LC14, %esi
 	movl	$_ZSt4cout, %edi
 	xorl	%r13d, %r13d
 	subq	$8, %rsp
@@ -491,24 +550,24 @@ _Z7cleanupb:
 	movq	pool(%rip), %rbx
 	movq	pool+8(%rip), %rbp
 	cmpq	%rbp, %rbx
-	jne	.L42
-	jmp	.L39
+	jne	.L47
+	jmp	.L44
 	.p2align 4,,10
 	.p2align 3
-.L54:
+.L59:
 	cmpb	$33, (%rdi)
-	jne	.L41
-.L40:
+	jne	.L46
+.L45:
 	addq	$24, %rbx
 	cmpq	%rbx, %rbp
-	je	.L39
-.L42:
+	je	.L44
+.L47:
 	movq	(%rbx), %rdi
 	testq	%rdi, %rdi
-	je	.L40
+	je	.L45
 	testb	%r12b, %r12b
-	je	.L54
-.L41:
+	je	.L59
+.L46:
 	movl	20(%rbx), %esi
 	addq	$24, %rbx
 	addl	$1, %r13d
@@ -518,8 +577,8 @@ _Z7cleanupb:
 	movq	$0, -24(%rbx)
 	movq	$0, -16(%rbx)
 	cmpq	%rbx, %rbp
-	jne	.L42
-.L39:
+	jne	.L47
+.L44:
 	movq	_ZSt4cout(%rip), %rax
 	movl	%r13d, %esi
 	movl	$_ZSt4cout, %edi
@@ -531,18 +590,18 @@ _Z7cleanupb:
 	call	_ZNSolsEi
 	movl	$16, %edx
 	movq	%rax, %rbx
-	movl	$.LC12, %esi
+	movl	$.LC15, %esi
 	movq	%rax, %rdi
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
 	movq	(%rbx), %rax
 	movq	-24(%rax), %rax
 	movq	240(%rbx,%rax), %rbp
 	testq	%rbp, %rbp
-	je	.L55
+	je	.L60
 	cmpb	$0, 56(%rbp)
-	je	.L44
+	je	.L49
 	movsbl	67(%rbp), %esi
-.L45:
+.L50:
 	movq	%rbx, %rdi
 	call	_ZNSo3putEc
 	addq	$8, %rsp
@@ -560,7 +619,7 @@ _Z7cleanupb:
 	jmp	_ZNSo5flushEv
 	.p2align 4,,10
 	.p2align 3
-.L44:
+.L49:
 	.cfi_restore_state
 	movq	%rbp, %rdi
 	call	_ZNKSt5ctypeIcE13_M_widen_initEv
@@ -568,29 +627,29 @@ _Z7cleanupb:
 	movl	$10, %esi
 	movq	48(%rax), %rax
 	cmpq	$_ZNKSt5ctypeIcE8do_widenEc, %rax
-	je	.L45
+	je	.L50
 	movq	%rbp, %rdi
 	call	*%rax
 	movsbl	%al, %esi
-	jmp	.L45
-.L55:
+	jmp	.L50
+.L60:
 	call	_ZSt16__throw_bad_castv
 	.cfi_endproc
-.LFE8248:
+.LFE8334:
 	.size	_Z7cleanupb, .-_Z7cleanupb
 	.section	.text.unlikely
-.LCOLDE13:
+.LCOLDE16:
 	.text
-.LHOTE13:
+.LHOTE16:
 	.section	.text.unlikely
-.LCOLDB14:
+.LCOLDB17:
 	.text
-.LHOTB14:
+.LHOTB17:
 	.p2align 4,,15
 	.globl	_Z7latencyiii
 	.type	_Z7latencyiii, @function
 _Z7latencyiii:
-.LFB8250:
+.LFB8336:
 	.cfi_startproc
 	pushq	%r15
 	.cfi_def_cfa_offset 16
@@ -619,30 +678,30 @@ _Z7latencyiii:
 	movq	pages(%rip), %rax
 	testl	%esi, %esi
 	movq	8(%rax), %r13
-	js	.L82
+	js	.L87
 	movl	%esi, %ecx
 	sall	%cl, %r8d
 	orl	%r8d, %r14d
-.L82:
+.L87:
 	testl	%edx, %edx
 	movslq	%r14d, %r14
-	js	.L59
+	js	.L64
 	movl	%edx, %ecx
 	movl	$1, %esi
 	sall	%cl, %esi
 	movslq	%esi, %rdx
 	orq	%rdx, %r14
-.L59:
+.L64:
 	movq	seed+24(%rip), %rdi
 	cmpq	$seed+8, %rdi
-	je	.L74
+	je	.L79
 	movq	%r14, %rbx
 	movl	$9999, %r15d
 	notq	%rbx
 	movq	%rbx, 8(%rsp)
 	.p2align 4,,10
 	.p2align 3
-.L73:
+.L78:
 	movq	32(%rdi), %rsi
 	movq	8(%rsp), %r8
 	movq	pages+8(%rip), %rcx
@@ -651,24 +710,24 @@ _Z7latencyiii:
 	movq	%r8, %rbx
 	andl	$2097151, %ebx
 	cmpq	%rax, %rcx
-	je	.L61
+	je	.L66
 	movq	8(%rax), %r11
 	subq	%rbx, %r8
 	movq	(%rax), %r9
 	leaq	24(%rax), %rdx
 	cmpq	%r8, %r11
-	jne	.L64
-	jmp	.L84
+	jne	.L69
+	jmp	.L89
 	.p2align 4,,10
 	.p2align 3
-.L66:
+.L71:
 	movq	(%rdx), %r10
 	addq	$24, %rdx
 	cmpq	%r8, -16(%rdx)
-	je	.L62
-.L64:
+	je	.L67
+.L69:
 	cmpq	%rcx, %rdx
-	jne	.L66
+	jne	.L71
 	orq	%r14, %rsi
 	addq	$24, %rax
 	leaq	(%rsi,%r13), %rdx
@@ -676,19 +735,19 @@ _Z7latencyiii:
 	andl	$2097151, %esi
 	subq	%rsi, %rdx
 	cmpq	%r11, %rdx
-	jne	.L69
-	jmp	.L67
+	jne	.L74
+	jmp	.L72
 	.p2align 4,,10
 	.p2align 3
-.L70:
+.L75:
 	movq	(%rax), %r9
 	addq	$24, %rax
 	cmpq	%rdx, -16(%rax)
-	je	.L67
-.L69:
+	je	.L72
+.L74:
 	cmpq	%rax, %rcx
-	jne	.L70
-.L61:
+	jne	.L75
+.L66:
 #APP
 # 199 "measure.cpp" 1
 	cpuid 
@@ -701,7 +760,7 @@ _Z7latencyiii:
 	movq	%rax, %r8
 	.p2align 4,,10
 	.p2align 3
-.L71:
+.L76:
 #APP
 # 213 "measure.cpp" 1
 	movq (%r12), %rax 
@@ -712,7 +771,7 @@ _Z7latencyiii:
 # 0 "" 2
 #NO_APP
 	subl	$1, %edx
-	jne	.L71
+	jne	.L76
 #APP
 # 215 "measure.cpp" 1
 	rdtscp 
@@ -734,12 +793,12 @@ _Z7latencyiii:
 	call	_ZSt18_Rb_tree_incrementPKSt18_Rb_tree_node_base
 	cmpq	$seed+8, %rax
 	movq	%rax, %rdi
-	je	.L72
+	je	.L77
 	movq	pages(%rip), %rax
-	jmp	.L73
-.L84:
+	jmp	.L78
+.L89:
 	movq	%r9, %r10
-.L62:
+.L67:
 	orq	%r14, %rsi
 	addq	$24, %rax
 	leaq	(%r10,%rbx), %r12
@@ -748,11 +807,11 @@ _Z7latencyiii:
 	andl	$2097151, %esi
 	subq	%rsi, %rdx
 	cmpq	%r11, %rdx
-	jne	.L69
-.L67:
-	leaq	(%r9,%rsi), %rbp
-	jmp	.L61
+	jne	.L74
 .L72:
+	leaq	(%r9,%rsi), %rbp
+	jmp	.L66
+.L77:
 	addq	$24, %rsp
 	.cfi_remember_state
 	.cfi_def_cfa_offset 56
@@ -770,7 +829,7 @@ _Z7latencyiii:
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	ret
-.L74:
+.L79:
 	.cfi_restore_state
 	addq	$24, %rsp
 	.cfi_def_cfa_offset 56
@@ -789,23 +848,23 @@ _Z7latencyiii:
 	.cfi_def_cfa_offset 8
 	ret
 	.cfi_endproc
-.LFE8250:
+.LFE8336:
 	.size	_Z7latencyiii, .-_Z7latencyiii
 	.section	.text.unlikely
-.LCOLDE14:
+.LCOLDE17:
 	.text
-.LHOTE14:
+.LHOTE17:
 	.section	.text.unlikely._ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv,"axG",@progbits,_ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv,comdat
 	.align 2
-.LCOLDB15:
+.LCOLDB18:
 	.section	.text._ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv,"axG",@progbits,_ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv,comdat
-.LHOTB15:
+.LHOTB18:
 	.align 2
 	.p2align 4,,15
 	.weak	_ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv
 	.type	_ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv, @function
 _ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv:
-.LFB8475:
+.LFB8561:
 	.cfi_startproc
 	pushq	%r12
 	.cfi_def_cfa_offset 16
@@ -818,23 +877,23 @@ _ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv:
 	.cfi_offset 3, -32
 	movq	(%rdi), %rbx
 	cmpq	%rdi, %rbx
-	je	.L85
+	je	.L90
 	movq	%rdi, %r12
 	.p2align 4,,10
 	.p2align 3
-.L92:
+.L97:
 	movq	16(%rbx), %rdi
 	movq	(%rbx), %rbp
 	testq	%rdi, %rdi
-	je	.L87
+	je	.L92
 	call	_ZdlPv
-.L87:
+.L92:
 	movq	%rbx, %rdi
 	movq	%rbp, %rbx
 	call	_ZdlPv
 	cmpq	%r12, %rbp
-	jne	.L92
-.L85:
+	jne	.L97
+.L90:
 	popq	%rbx
 	.cfi_def_cfa_offset 24
 	popq	%rbp
@@ -843,51 +902,51 @@ _ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv:
 	.cfi_def_cfa_offset 8
 	ret
 	.cfi_endproc
-.LFE8475:
+.LFE8561:
 	.size	_ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv, .-_ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv
 	.section	.text.unlikely._ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv,"axG",@progbits,_ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv,comdat
-.LCOLDE15:
+.LCOLDE18:
 	.section	.text._ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv,"axG",@progbits,_ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv,comdat
-.LHOTE15:
+.LHOTE18:
 	.section	.text.unlikely._ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED2Ev,"axG",@progbits,_ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED5Ev,comdat
 	.align 2
-.LCOLDB16:
+.LCOLDB19:
 	.section	.text._ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED2Ev,"axG",@progbits,_ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED5Ev,comdat
-.LHOTB16:
+.LHOTB19:
 	.align 2
 	.p2align 4,,15
 	.weak	_ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED2Ev
 	.type	_ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED2Ev, @function
 _ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED2Ev:
-.LFB8862:
+.LFB8942:
 	.cfi_startproc
 	jmp	_ZNSt7__cxx1110_List_baseISt6vectorI8HugePageSaIS2_EESaIS4_EE8_M_clearEv
 	.cfi_endproc
-.LFE8862:
+.LFE8942:
 	.size	_ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED2Ev, .-_ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED2Ev
 	.section	.text.unlikely._ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED2Ev,"axG",@progbits,_ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED5Ev,comdat
-.LCOLDE16:
+.LCOLDE19:
 	.section	.text._ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED2Ev,"axG",@progbits,_ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED5Ev,comdat
-.LHOTE16:
+.LHOTE19:
 	.weak	_ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED1Ev
 	.set	_ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED1Ev,_ZNSt7__cxx114listISt6vectorI8HugePageSaIS2_EESaIS4_EED2Ev
 	.section	.rodata.str1.1
-.LC17:
+.LC20:
 	.string	"vector::_M_default_append"
 	.section	.text.unlikely._ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm,"axG",@progbits,_ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm,comdat
 	.align 2
-.LCOLDB18:
+.LCOLDB21:
 	.section	.text._ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm,"axG",@progbits,_ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm,comdat
-.LHOTB18:
+.LHOTB21:
 	.align 2
 	.p2align 4,,15
 	.weak	_ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm
 	.type	_ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm, @function
 _ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm:
-.LFB8478:
+.LFB8564:
 	.cfi_startproc
 	testq	%rsi, %rsi
-	je	.L135
+	je	.L140
 	movq	8(%rdi), %r8
 	movq	16(%rdi), %rax
 	movabsq	$-6148914691236517205, %rdx
@@ -895,29 +954,29 @@ _ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm:
 	sarq	$3, %rax
 	imulq	%rdx, %rax
 	cmpq	%rax, %rsi
-	ja	.L98
+	ja	.L103
 	movq	%rsi, %rdx
 	movq	%r8, %rax
 	.p2align 4,,10
 	.p2align 3
-.L100:
+.L105:
 	testq	%rax, %rax
-	je	.L99
+	je	.L104
 	movq	$0, (%rax)
 	movq	$0, 8(%rax)
 	movb	$0, 16(%rax)
 	movl	$1, 20(%rax)
-.L99:
+.L104:
 	addq	$24, %rax
 	subq	$1, %rdx
-	jne	.L100
+	jne	.L105
 	leaq	(%rsi,%rsi,2), %rax
 	leaq	(%r8,%rax,8), %rax
 	movq	%rax, 8(%rdi)
 	ret
 	.p2align 4,,10
 	.p2align 3
-.L98:
+.L103:
 	pushq	%r13
 	.cfi_def_cfa_offset 16
 	.cfi_offset 13, -16
@@ -943,79 +1002,79 @@ _ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm:
 	movq	%rcx, %rax
 	subq	%rdx, %rax
 	cmpq	%rax, %rsi
-	ja	.L136
+	ja	.L141
 	cmpq	%rdx, %rsi
 	movq	%rdx, %rax
 	cmovnb	%rsi, %rax
 	addq	%rax, %rdx
-	jc	.L114
+	jc	.L119
 	cmpq	%rcx, %rdx
-	ja	.L114
+	ja	.L119
 	leaq	(%rdx,%rdx,2), %r13
 	salq	$3, %r13
 	testq	%rdx, %rdx
-	jne	.L111
+	jne	.L116
 	xorl	%r13d, %r13d
 	xorl	%r12d, %r12d
-	jmp	.L110
+	jmp	.L115
 	.p2align 4,,10
 	.p2align 3
-.L114:
+.L119:
 	movq	$-16, %r13
-.L111:
+.L116:
 	movq	%r13, %rdi
 	call	_Znwm
 	movq	8(%rbp), %r8
 	movq	0(%rbp), %rdi
 	movq	%rax, %r12
 	addq	%rax, %r13
-.L110:
+.L115:
 	cmpq	%rdi, %r8
-	je	.L112
+	je	.L117
 	movq	%r12, %rcx
 	movq	%rdi, %rdx
 	.p2align 4,,10
 	.p2align 3
-.L106:
+.L111:
 	testq	%rcx, %rcx
-	je	.L105
+	je	.L110
 	movq	(%rdx), %rsi
 	movq	%rsi, (%rcx)
 	movq	8(%rdx), %rsi
 	movq	%rsi, 8(%rcx)
 	movq	16(%rdx), %rsi
 	movq	%rsi, 16(%rcx)
-.L105:
+.L110:
 	addq	$24, %rdx
 	addq	$24, %rcx
 	cmpq	%rdx, %r8
-	jne	.L106
+	jne	.L111
 	leaq	24(%rdi), %rax
 	subq	%rax, %r8
 	shrq	$3, %r8
 	leaq	24(%r12,%r8,8), %rax
-.L104:
+.L109:
 	movq	%rax, %rdx
 	movq	%rbx, %rcx
 	.p2align 4,,10
 	.p2align 3
-.L108:
+.L113:
 	testq	%rdx, %rdx
-	je	.L107
+	je	.L112
 	movq	$0, (%rdx)
 	movq	$0, 8(%rdx)
 	movb	$0, 16(%rdx)
 	movl	$1, 20(%rdx)
-.L107:
+.L112:
 	addq	$24, %rdx
 	subq	$1, %rcx
-	jne	.L108
+	jne	.L113
 	leaq	(%rbx,%rbx,2), %rdx
 	testq	%rdi, %rdi
 	leaq	(%rax,%rdx,8), %rbx
-	je	.L109
+	je	.L114
 	call	_ZdlPv
-.L109:
+.L114:
 	movq	%r12, 0(%rbp)
 	movq	%rbx, 8(%rbp)
 	movq	%r13, 16(%rbp)
@@ -1033,37 +1092,37 @@ _ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm:
 	popq	%r13
 	.cfi_restore 13
 	.cfi_def_cfa_offset 8
-.L135:
+.L140:
 	rep ret
-.L112:
+.L117:
 	.cfi_def_cfa_offset 48
 	.cfi_offset 3, -40
 	.cfi_offset 6, -32
 	.cfi_offset 12, -24
 	.cfi_offset 13, -16
 	movq	%r12, %rax
-	jmp	.L104
-.L136:
-	movl	$.LC17, %edi
+	jmp	.L109
+.L141:
+	movl	$.LC20, %edi
 	call	_ZSt20__throw_length_errorPKc
 	.cfi_endproc
-.LFE8478:
+.LFE8564:
 	.size	_ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm, .-_ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm
 	.section	.text.unlikely._ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm,"axG",@progbits,_ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm,comdat
-.LCOLDE18:
+.LCOLDE21:
 	.section	.text._ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm,"axG",@progbits,_ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm,comdat
-.LHOTE18:
+.LHOTE21:
 	.section	.text.unlikely._ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_,"axG",@progbits,_ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_,comdat
 	.align 2
-.LCOLDB19:
+.LCOLDB22:
 	.section	.text._ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_,"axG",@progbits,_ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_,comdat
-.LHOTB19:
+.LHOTB22:
 	.align 2
 	.p2align 4,,15
 	.weak	_ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_
 	.type	_ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_, @function
 _ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_:
-.LFB8488:
+.LFB8574:
 	.cfi_startproc
 	pushq	%r14
 	.cfi_def_cfa_offset 16
@@ -1091,13 +1150,13 @@ _ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_:
 	sarq	$3, %rcx
 	imulq	%rcx, %rax
 	testq	%rax, %rax
-	je	.L146
+	je	.L151
 	leaq	(%rax,%rax), %rcx
 	cmpq	%rcx, %rax
-	jbe	.L161
-.L147:
+	jbe	.L166
+.L152:
 	movq	$-16, %r12
-.L138:
+.L143:
 	movq	%r12, %rdi
 	call	_Znwm
 	movq	8(%rbx), %r8
@@ -1107,45 +1166,45 @@ _ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_:
 	addq	%rax, %r12
 	movq	%r8, %rdx
 	subq	%rdi, %rdx
-.L145:
+.L150:
 	addq	%rbp, %rdx
-	je	.L140
+	je	.L145
 	movq	0(%r13), %rax
 	movq	%rax, (%rdx)
 	movq	8(%r13), %rax
 	movq	%rax, 8(%rdx)
 	movq	16(%r13), %rax
 	movq	%rax, 16(%rdx)
-.L140:
+.L145:
 	cmpq	%rdi, %r8
-	je	.L141
+	je	.L146
 	movq	%rdi, %rdx
 	movq	%rbp, %rcx
 	.p2align 4,,10
 	.p2align 3
-.L143:
+.L148:
 	testq	%rcx, %rcx
-	je	.L142
+	je	.L147
 	movq	(%rdx), %rsi
 	movq	%rsi, (%rcx)
 	movq	8(%rdx), %rsi
 	movq	%rsi, 8(%rcx)
 	movq	16(%rdx), %rsi
 	movq	%rsi, 16(%rcx)
-.L142:
+.L147:
 	addq	$24, %rdx
 	addq	$24, %rcx
 	cmpq	%r8, %rdx
-	jne	.L143
+	jne	.L148
 	leaq	24(%rdi), %rax
 	subq	%rax, %rdx
 	shrq	$3, %rdx
 	leaq	48(%rbp,%rdx,8), %r14
-.L141:
+.L146:
 	testq	%rdi, %rdi
-	je	.L144
+	je	.L149
 	call	_ZdlPv
-.L144:
+.L149:
 	movq	%rbp, (%rbx)
 	movq	%r14, 8(%rbx)
 	movq	%r12, 16(%rbx)
@@ -1163,44 +1222,44 @@ _ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_:
 	ret
 	.p2align 4,,10
 	.p2align 3
-.L146:
+.L151:
 	.cfi_restore_state
 	movl	$24, %r12d
-	jmp	.L138
-.L161:
+	jmp	.L143
+.L166:
 	movabsq	$768614336404564650, %rsi
 	cmpq	%rsi, %rcx
-	ja	.L147
+	ja	.L152
 	testq	%rcx, %rcx
-	jne	.L162
+	jne	.L167
 	movl	$24, %r14d
 	xorl	%r12d, %r12d
 	xorl	%ebp, %ebp
-	jmp	.L145
-.L162:
+	jmp	.L150
+.L167:
 	leaq	(%rcx,%rax,4), %r12
 	salq	$3, %r12
-	jmp	.L138
+	jmp	.L143
 	.cfi_endproc
-.LFE8488:
+.LFE8574:
 	.size	_ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_, .-_ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_
 	.section	.text.unlikely._ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_,"axG",@progbits,_ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_,comdat
-.LCOLDE19:
+.LCOLDE22:
 	.section	.text._ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_,"axG",@progbits,_ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_,comdat
-.LHOTE19:
+.LHOTE22:
 	.weak	_ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIIRKS0_EEEvDpOT_
 	.set	_ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIIRKS0_EEEvDpOT_,_ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_
 	.section	.text.unlikely._ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_,"axG",@progbits,_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_,comdat
 	.align 2
-.LCOLDB20:
+.LCOLDB23:
 	.section	.text._ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_,"axG",@progbits,_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_,comdat
-.LHOTB20:
+.LHOTB23:
 	.align 2
 	.p2align 4,,15
 	.weak	_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_
 	.type	_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_, @function
 _ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_:
-.LFB8499:
+.LFB8585:
 	.cfi_startproc
 	pushq	%r15
 	.cfi_def_cfa_offset 16
@@ -1227,31 +1286,31 @@ _ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt
 	.cfi_def_cfa_offset 64
 	movq	16(%rdi), %rbx
 	testq	%rbx, %rbx
-	je	.L174
+	je	.L179
 	movq	(%rsi), %rcx
-	jmp	.L165
+	jmp	.L170
 	.p2align 4,,10
 	.p2align 3
-.L180:
+.L185:
 	movq	16(%rbx), %rax
 	testq	%rax, %rax
-	je	.L166
-.L181:
+	je	.L171
+.L186:
 	movq	%rax, %rbx
-.L165:
+.L170:
 	movq	32(%rbx), %rdx
 	cmpq	%rcx, %rdx
-	ja	.L180
+	ja	.L185
 	movq	24(%rbx), %rax
 	testq	%rax, %rax
-	jne	.L181
-.L166:
+	jne	.L186
+.L171:
 	cmpq	%rcx, %rdx
 	movq	%rbx, %rax
-	ja	.L164
+	ja	.L169
 	cmpq	%rcx, %rdx
-	jb	.L170
-.L178:
+	jb	.L175
+.L183:
 	addq	$8, %rsp
 	.cfi_remember_state
 	.cfi_def_cfa_offset 56
@@ -1269,28 +1328,28 @@ _ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	ret
-.L174:
+.L179:
 	.cfi_restore_state
 	movq	%r12, %rbx
 	.p2align 4,,10
 	.p2align 3
-.L164:
+.L169:
 	cmpq	%rbx, 24(%r13)
-	je	.L170
+	je	.L175
 	movq	%rbx, %rdi
 	call	_ZSt18_Rb_tree_decrementPSt18_Rb_tree_node_base
 	movq	(%r14), %rcx
 	movq	32(%rax), %rdx
 	cmpq	%rcx, %rdx
-	jnb	.L178
-.L170:
+	jnb	.L183
+.L175:
 	cmpq	%rbx, %r12
-	je	.L176
+	je	.L181
 	xorl	%r15d, %r15d
 	movq	32(%rbx), %rax
 	cmpq	%rax, (%r14)
 	setb	%r15b
-.L171:
+.L176:
 	movl	$40, %edi
 	call	_Znwm
 	movq	%rax, %rbp
@@ -1320,31 +1379,31 @@ _ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	ret
-.L176:
+.L181:
 	.cfi_restore_state
 	movl	$1, %r15d
-	jmp	.L171
+	jmp	.L176
 	.cfi_endproc
-.LFE8499:
+.LFE8585:
 	.size	_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_, .-_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_
 	.section	.text.unlikely._ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_,"axG",@progbits,_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_,comdat
-.LCOLDE20:
+.LCOLDE23:
 	.section	.text._ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_,"axG",@progbits,_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_,comdat
-.LHOTE20:
+.LHOTE23:
 	.section	.text.unlikely._ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE,"axG",@progbits,_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE,comdat
 	.align 2
-.LCOLDB21:
+.LCOLDB24:
 	.section	.text._ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE,"axG",@progbits,_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE,comdat
-.LHOTB21:
+.LHOTB24:
 	.align 2
 	.p2align 4,,15
 	.weak	_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE
 	.type	_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE, @function
 _ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE:
-.LFB8573:
+.LFB8659:
 	.cfi_startproc
 	testq	%rsi, %rsi
-	je	.L192
+	je	.L197
 	pushq	%r12
 	.cfi_def_cfa_offset 16
 	.cfi_offset 12, -16
@@ -1358,7 +1417,7 @@ _ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE:
 	movq	%rsi, %rbx
 	.p2align 4,,10
 	.p2align 3
-.L188:
+.L193:
 	movq	24(%rbx), %rsi
 	movq	%r12, %rdi
 	call	_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE
@@ -1367,7 +1426,7 @@ _ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE:
 	call	_ZdlPv
 	testq	%rbp, %rbp
 	movq	%rbp, %rbx
-	jne	.L188
+	jne	.L193
 	popq	%rbx
 	.cfi_restore 3
 	.cfi_def_cfa_offset 24
@@ -1377,47 +1436,47 @@ _ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE:
 	popq	%r12
 	.cfi_restore 12
 	.cfi_def_cfa_offset 8
-.L192:
+.L197:
 	rep ret
 	.cfi_endproc
-.LFE8573:
+.LFE8659:
 	.size	_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE, .-_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE
 	.section	.text.unlikely._ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE,"axG",@progbits,_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE,comdat
-.LCOLDE21:
+.LCOLDE24:
 	.section	.text._ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE,"axG",@progbits,_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE,comdat
-.LHOTE21:
+.LHOTE24:
 	.section	.text.unlikely._ZNSt3setImSt4lessImESaImEED2Ev,"axG",@progbits,_ZNSt3setImSt4lessImESaImEED5Ev,comdat
 	.align 2
-.LCOLDB22:
+.LCOLDB25:
 	.section	.text._ZNSt3setImSt4lessImESaImEED2Ev,"axG",@progbits,_ZNSt3setImSt4lessImESaImEED5Ev,comdat
-.LHOTB22:
+.LHOTB25:
 	.align 2
 	.p2align 4,,15
 	.weak	_ZNSt3setImSt4lessImESaImEED2Ev
 	.type	_ZNSt3setImSt4lessImESaImEED2Ev, @function
 _ZNSt3setImSt4lessImESaImEED2Ev:
-.LFB8865:
+.LFB8945:
 	.cfi_startproc
 	movq	16(%rdi), %rsi
 	jmp	_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE8_M_eraseEPSt13_Rb_tree_nodeImE
 	.cfi_endproc
-.LFE8865:
+.LFE8945:
 	.size	_ZNSt3setImSt4lessImESaImEED2Ev, .-_ZNSt3setImSt4lessImESaImEED2Ev
 	.section	.text.unlikely._ZNSt3setImSt4lessImESaImEED2Ev,"axG",@progbits,_ZNSt3setImSt4lessImESaImEED5Ev,comdat
-.LCOLDE22:
+.LCOLDE25:
 	.section	.text._ZNSt3setImSt4lessImESaImEED2Ev,"axG",@progbits,_ZNSt3setImSt4lessImESaImEED5Ev,comdat
-.LHOTE22:
+.LHOTE25:
 	.weak	_ZNSt3setImSt4lessImESaImEED1Ev
 	.set	_ZNSt3setImSt4lessImESaImEED1Ev,_ZNSt3setImSt4lessImESaImEED2Ev
 	.section	.text.unlikely
-.LCOLDB23:
+.LCOLDB26:
 	.text
-.LHOTB23:
+.LHOTB26:
 	.p2align 4,,15
 	.globl	_Z7genseedii
 	.type	_Z7genseedii, @function
 _Z7genseedii:
-.LFB8249:
+.LFB8335:
 	.cfi_startproc
 	pushq	%r14
 	.cfi_def_cfa_offset 16
@@ -1439,6 +1498,9 @@ _Z7genseedii:
 	xorl	%edi, %edi
 	subq	$16, %rsp
 	.cfi_def_cfa_offset 64
+	movq	%fs:40, %rax
+	movq	%rax, 8(%rsp)
+	xorl	%eax, %eax
 	call	time
 	movl	%eax, %edi
 	call	srand
@@ -1450,15 +1512,15 @@ _Z7genseedii:
 	movq	$seed+8, seed+24(%rip)
 	movq	$seed+8, seed+32(%rip)
 	movq	$0, seed+40(%rip)
-	jle	.L204
+	jle	.L210
 	movl	$1, %ebp
 	movl	%r13d, %ecx
-	leaq	8(%rsp), %r12
-	sall	%cl, %ebp
 	xorl	%r14d, %r14d
+	sall	%cl, %ebp
+	movq	%rsp, %r12
 	.p2align 4,,10
 	.p2align 3
-.L197:
+.L202:
 	call	rand
 	cltd
 	movq	%r12, %rsi
@@ -1466,32 +1528,35 @@ _Z7genseedii:
 	idivl	%ebp
 	addl	$1, %r14d
 	movslq	%edx, %rdx
-	movq	%rdx, 8(%rsp)
+	movq	%rdx, (%rsp)
 	call	_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_
 	cmpl	%r14d, %ebx
-	jne	.L197
+	jne	.L202
 	movq	seed+40(%rip), %rax
-.L198:
+.L203:
 	cmpq	%rbx, %rax
-	jnb	.L194
+	jnb	.L199
 	movl	$1, %ebp
 	movl	%r13d, %ecx
-	leaq	8(%rsp), %r12
+	movq	%rsp, %r12
 	sall	%cl, %ebp
 	.p2align 4,,10
 	.p2align 3
-.L199:
+.L204:
 	call	rand
 	cltd
 	movq	%r12, %rsi
 	movl	$seed, %edi
 	idivl	%ebp
 	movslq	%edx, %rdx
-	movq	%rdx, 8(%rsp)
+	movq	%rdx, (%rsp)
 	call	_ZNSt8_Rb_treeImmSt9_IdentityImESt4lessImESaImEE16_M_insert_uniqueImEESt4pairISt17_Rb_tree_iteratorImEbEOT_
 	cmpq	%rbx, seed+40(%rip)
-	jb	.L199
-.L194:
+	jb	.L204
+.L199:
+	movq	8(%rsp), %rax
+	xorq	%fs:40, %rax
+	jne	.L211
 	addq	$16, %rsp
 	.cfi_remember_state
 	.cfi_def_cfa_offset 48
@@ -1506,28 +1571,30 @@ _Z7genseedii:
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	ret
-.L204:
+.L210:
 	.cfi_restore_state
 	xorl	%eax, %eax
-	jmp	.L198
+	jmp	.L203
+.L211:
+	call	__stack_chk_fail
 	.cfi_endproc
-.LFE8249:
+.LFE8335:
 	.size	_Z7genseedii, .-_Z7genseedii
 	.section	.text.unlikely
-.LCOLDE23:
+.LCOLDE26:
 	.text
-.LHOTE23:
+.LHOTE26:
 	.section	.text.unlikely._ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0_S2_EEEEvT_S8_St20forward_iterator_tag,"axG",@progbits,_ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0_S2_EEEEvT_S8_St20forward_iterator_tag,comdat
 	.align 2
-.LCOLDB24:
+.LCOLDB27:
 	.section	.text._ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0_S2_EEEEvT_S8_St20forward_iterator_tag,"axG",@progbits,_ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0_S2_EEEEvT_S8_St20forward_iterator_tag,comdat
-.LHOTB24:
+.LHOTB27:
 	.align 2
 	.p2align 4,,15
 	.weak	_ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0_S2_EEEEvT_S8_St20forward_iterator_tag
 	.type	_ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0_S2_EEEEvT_S8_St20forward_iterator_tag, @function
 _ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0_S2_EEEEvT_S8_St20forward_iterator_tag:
-.LFB8594:
+.LFB8680:
 	.cfi_startproc
 	pushq	%r15
 	.cfi_def_cfa_offset 16
@@ -1561,7 +1628,7 @@ _ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0
 	imulq	%r10, %r8
 	imulq	%r10, %rax
 	cmpq	%r8, %rax
-	jb	.L240
+	jb	.L247
 	movq	8(%rdi), %r9
 	movq	%r9, %rbx
 	subq	%rcx, %rbx
@@ -1569,13 +1636,13 @@ _ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0
 	sarq	$3, %rax
 	imulq	%rax, %r10
 	cmpq	%r10, %r8
-	ja	.L217
+	ja	.L224
 	testq	%r8, %r8
-	jle	.L218
+	jle	.L225
 	xorl	%eax, %eax
 	.p2align 4,,10
 	.p2align 3
-.L219:
+.L226:
 	movq	(%rsi,%rax), %rdx
 	movq	%rdx, (%rcx,%rax)
 	movq	8(%rsi,%rax), %rdx
@@ -1584,9 +1651,9 @@ _ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0
 	movq	%rdx, 16(%rcx,%rax)
 	addq	$24, %rax
 	cmpq	%rbp, %rax
-	jne	.L219
+	jne	.L226
 	addq	%rax, %rcx
-.L218:
+.L225:
 	movq	%rcx, 8(%rdi)
 	addq	$8, %rsp
 	.cfi_remember_state
@@ -1606,15 +1673,15 @@ _ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0
 	ret
 	.p2align 4,,10
 	.p2align 3
-.L217:
+.L224:
 	.cfi_restore_state
 	xorl	%eax, %eax
 	testq	%r10, %r10
 	leaq	(%rsi,%rbx), %r11
-	jle	.L223
+	jle	.L230
 	.p2align 4,,10
 	.p2align 3
-.L236:
+.L243:
 	movq	(%rsi,%rax), %r8
 	movq	%r8, (%rcx,%rax)
 	movq	8(%rsi,%rax), %r8
@@ -1623,33 +1690,33 @@ _ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0
 	movq	%r8, 16(%rcx,%rax)
 	addq	$24, %rax
 	cmpq	%rax, %rbx
-	jne	.L236
-.L223:
+	jne	.L243
+.L230:
 	cmpq	%rdx, %r11
 	movq	%r9, %rcx
 	movq	%r11, %rax
-	je	.L222
+	je	.L229
 	.p2align 4,,10
 	.p2align 3
-.L232:
+.L239:
 	testq	%rcx, %rcx
-	je	.L225
+	je	.L232
 	movq	(%rax), %rsi
 	movq	%rsi, (%rcx)
 	movq	8(%rax), %rsi
 	movq	%rsi, 8(%rcx)
 	movq	16(%rax), %rsi
 	movq	%rsi, 16(%rcx)
-.L225:
+.L232:
 	addq	$24, %rax
 	addq	$24, %rcx
 	cmpq	%rdx, %rax
-	jne	.L232
+	jne	.L239
 	addq	$24, %r11
 	subq	%r11, %rax
 	shrq	$3, %rax
 	leaq	24(%r9,%rax,8), %r9
-.L222:
+.L229:
 	movq	%r9, 8(%rdi)
 	addq	$8, %rsp
 	.cfi_remember_state
@@ -1669,7 +1736,7 @@ _ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0
 	ret
 	.p2align 4,,10
 	.p2align 3
-.L240:
+.L247:
 	.cfi_restore_state
 	xorl	%r14d, %r14d
 	testq	%r8, %r8
@@ -1678,39 +1745,39 @@ _ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0
 	movq	%rdx, %r13
 	movq	%rsi, %r12
 	movq	%rcx, %rdi
-	je	.L208
+	je	.L215
 	movabsq	$768614336404564650, %rax
 	cmpq	%rax, %r8
-	ja	.L241
+	ja	.L248
 	movq	%rbp, %rdi
 	call	_Znwm
 	movq	(%r15), %rdi
 	movq	%rax, %r14
-.L208:
+.L215:
 	cmpq	%r13, %r12
 	movq	%r14, %rsi
-	je	.L215
+	je	.L222
 	.p2align 4,,10
 	.p2align 3
-.L231:
+.L238:
 	testq	%rsi, %rsi
-	je	.L213
+	je	.L220
 	movq	(%rbx), %r8
 	movq	%r8, (%rsi)
 	movq	8(%rbx), %r8
 	movq	%r8, 8(%rsi)
 	movq	16(%rbx), %r8
 	movq	%r8, 16(%rsi)
-.L213:
+.L220:
 	addq	$24, %rbx
 	addq	$24, %rsi
 	cmpq	%rbx, %r13
-	jne	.L231
-.L215:
+	jne	.L238
+.L222:
 	testq	%rdi, %rdi
-	je	.L212
+	je	.L219
 	call	_ZdlPv
-.L212:
+.L219:
 	addq	%r14, %rbp
 	movq	%r14, (%r15)
 	movq	%rbp, 8(%r15)
@@ -1731,31 +1798,31 @@ _ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	ret
-.L241:
+.L248:
 	.cfi_restore_state
 	call	_ZSt17__throw_bad_allocv
 	.cfi_endproc
-.LFE8594:
+.LFE8680:
 	.size	_ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0_S2_EEEEvT_S8_St20forward_iterator_tag, .-_ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0_S2_EEEEvT_S8_St20forward_iterator_tag
 	.section	.text.unlikely._ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0_S2_EEEEvT_S8_St20forward_iterator_tag,"axG",@progbits,_ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0_S2_EEEEvT_S8_St20forward_iterator_tag,comdat
-.LCOLDE24:
+.LCOLDE27:
 	.section	.text._ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0_S2_EEEEvT_S8_St20forward_iterator_tag,"axG",@progbits,_ZNSt6vectorI8HugePageSaIS0_EE13_M_assign_auxIN9__gnu_cxx17__normal_iteratorIPS0_S2_EEEEvT_S8_St20forward_iterator_tag,comdat
-.LHOTE24:
+.LHOTE27:
 	.section	.text.unlikely._ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_,"axG",@progbits,_ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_,comdat
-.LCOLDB25:
+.LCOLDB28:
 	.section	.text._ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_,"axG",@progbits,_ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_,comdat
-.LHOTB25:
+.LHOTB28:
 	.p2align 4,,15
 	.weak	_ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_
 	.type	_ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_, @function
 _ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_:
-.LFB8687:
+.LFB8773:
 	.cfi_startproc
 	cmpq	%rdi, %rsi
-	je	.L258
+	je	.L265
 	leaq	24(%rdi), %rax
 	cmpq	%rsi, %rax
-	je	.L258
+	je	.L265
 	pushq	%r12
 	.cfi_def_cfa_offset 16
 	.cfi_offset 12, -16
@@ -1771,10 +1838,10 @@ _ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaI
 	movq	%rsi, %rbx
 	.p2align 4,,10
 	.p2align 3
-.L250:
+.L257:
 	movq	8(%r10), %rdi
 	cmpq	8(%r11), %rdi
-	jnb	.L245
+	jnb	.L252
 	movq	%r10, %rdx
 	movq	(%r10), %r12
 	movzbl	16(%r10), %r9d
@@ -1785,10 +1852,10 @@ _ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaI
 	leaq	-24(%r10), %rax
 	imulq	%rbp, %rdx
 	testq	%rdx, %rdx
-	jle	.L248
+	jle	.L255
 	.p2align 4,,10
 	.p2align 3
-.L254:
+.L261:
 	movq	(%rax), %rcx
 	subq	$24, %rax
 	movq	%rcx, 48(%rax)
@@ -1797,16 +1864,16 @@ _ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaI
 	movq	40(%rax), %rcx
 	movq	%rcx, 64(%rax)
 	subq	$1, %rdx
-	jne	.L254
-.L248:
+	jne	.L261
+.L255:
 	movq	%r12, (%r11)
 	movq	%rdi, 8(%r11)
 	movb	%r9b, 16(%r11)
 	movl	%esi, 20(%r11)
-.L247:
+.L254:
 	cmpq	%r8, %rbx
 	movq	%r8, %r10
-	jne	.L250
+	jne	.L257
 	popq	%rbx
 	.cfi_restore 3
 	.cfi_def_cfa_offset 24
@@ -1816,48 +1883,48 @@ _ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaI
 	popq	%r12
 	.cfi_restore 12
 	.cfi_def_cfa_offset 8
-.L258:
+.L265:
 	rep ret
 	.p2align 4,,10
 	.p2align 3
-.L245:
+.L252:
 	.cfi_def_cfa_offset 32
 	.cfi_offset 3, -32
 	.cfi_offset 6, -24
 	.cfi_offset 12, -16
 	movq	%r10, %rdi
-	call	_ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops14_Val_less_iterEEvT_T0_.isra.50
+	call	_ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops14_Val_less_iterEEvT_T0_.isra.49
 	leaq	24(%r10), %r8
-	jmp	.L247
+	jmp	.L254
 	.cfi_endproc
-.LFE8687:
+.LFE8773:
 	.size	_ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_, .-_ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_
 	.section	.text.unlikely._ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_,"axG",@progbits,_ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_,comdat
-.LCOLDE25:
+.LCOLDE28:
 	.section	.text._ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_,"axG",@progbits,_ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_,comdat
-.LHOTE25:
+.LHOTE28:
 	.section	.text.unlikely._ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_SA_SA_T0_,"axG",@progbits,_ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_SA_SA_T0_,comdat
-.LCOLDB26:
+.LCOLDB29:
 	.section	.text._ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_SA_SA_T0_,"axG",@progbits,_ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_SA_SA_T0_,comdat
-.LHOTB26:
+.LHOTB29:
 	.p2align 4,,15
 	.weak	_ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_SA_SA_T0_
 	.type	_ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_SA_SA_T0_, @function
 _ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_SA_SA_T0_:
-.LFB8754:
+.LFB8839:
 	.cfi_startproc
 	movq	8(%rsi), %r8
 	movq	8(%rdx), %rax
 	movq	8(%rcx), %r9
 	cmpq	%r8, %rax
-	jbe	.L260
+	jbe	.L267
 	cmpq	%r9, %rax
-	jb	.L268
+	jb	.L275
 	cmpq	%r9, %r8
 	movq	(%rdi), %r8
-	jnb	.L267
+	jnb	.L274
 	movq	8(%rdi), %rsi
-.L266:
+.L273:
 	movq	(%rcx), %r9
 	movzbl	16(%rdi), %edx
 	movl	20(%rdi), %eax
@@ -1873,14 +1940,14 @@ _ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorI
 	ret
 	.p2align 4,,10
 	.p2align 3
-.L260:
+.L267:
 	cmpq	%r9, %r8
 	movq	(%rdi), %r8
-	jb	.L267
+	jb	.L274
 	cmpq	%r9, %rax
 	movq	8(%rdi), %rsi
-	jb	.L266
-.L265:
+	jb	.L273
+.L272:
 	movq	(%rdx), %r9
 	movzbl	16(%rdi), %ecx
 	movl	20(%rdi), %eax
@@ -1896,7 +1963,7 @@ _ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorI
 	ret
 	.p2align 4,,10
 	.p2align 3
-.L267:
+.L274:
 	movq	(%rsi), %r9
 	movzbl	16(%rdi), %edx
 	movq	8(%rdi), %rcx
@@ -1913,26 +1980,26 @@ _ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorI
 	ret
 	.p2align 4,,10
 	.p2align 3
-.L268:
+.L275:
 	movq	(%rdi), %r8
 	movq	8(%rdi), %rsi
-	jmp	.L265
+	jmp	.L272
 	.cfi_endproc
-.LFE8754:
+.LFE8839:
 	.size	_ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_SA_SA_T0_, .-_ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_SA_SA_T0_
 	.section	.text.unlikely._ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_SA_SA_T0_,"axG",@progbits,_ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_SA_SA_T0_,comdat
-.LCOLDE26:
+.LCOLDE29:
 	.section	.text._ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_SA_SA_T0_,"axG",@progbits,_ZSt22__move_median_to_firstIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_SA_SA_T0_,comdat
-.LHOTE26:
+.LHOTE29:
 	.section	.text.unlikely._ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElS2_NS0_5__ops15_Iter_less_iterEEvT_T0_SB_T1_T2_,"axG",@progbits,_ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElS2_NS0_5__ops15_Iter_less_iterEEvT_T0_SB_T1_T2_,comdat
-.LCOLDB27:
+.LCOLDB30:
 	.section	.text._ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElS2_NS0_5__ops15_Iter_less_iterEEvT_T0_SB_T1_T2_,"axG",@progbits,_ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElS2_NS0_5__ops15_Iter_less_iterEEvT_T0_SB_T1_T2_,comdat
-.LHOTB27:
+.LHOTB30:
 	.p2align 4,,15
 	.weak	_ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElS2_NS0_5__ops15_Iter_less_iterEEvT_T0_SB_T1_T2_
 	.type	_ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElS2_NS0_5__ops15_Iter_less_iterEEvT_T0_SB_T1_T2_, @function
 _ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElS2_NS0_5__ops15_Iter_less_iterEEvT_T0_SB_T1_T2_:
-.LFB8839:
+.LFB8921:
 	.cfi_startproc
 	leaq	-1(%rdx), %rax
 	pushq	%rbx
@@ -1944,13 +2011,13 @@ _ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_
 	addq	%rax, %rbx
 	sarq	%rbx
 	cmpq	%rbx, %rsi
-	jl	.L283
-	jmp	.L290
+	jl	.L290
+	jmp	.L297
 	.p2align 4,,10
 	.p2align 3
-.L281:
+.L288:
 	movq	%rcx, %r8
-.L283:
+.L290:
 	leaq	1(%r8), %r10
 	leaq	(%r8,%r8,2), %r8
 	leaq	(%r10,%r10), %r9
@@ -1971,24 +2038,24 @@ _ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_
 	movq	%r9, 8(%r8)
 	movq	16(%rax), %r9
 	movq	%r9, 16(%r8)
-	jl	.L281
+	jl	.L288
 	testb	$1, %dl
-	jne	.L275
-.L271:
+	jne	.L282
+.L278:
 	subq	$2, %rdx
 	movq	%rdx, %r8
 	shrq	$63, %r8
 	addq	%r8, %rdx
 	sarq	%rdx
 	cmpq	%rcx, %rdx
-	je	.L291
-.L275:
+	je	.L298
+.L282:
 	cmpq	%rsi, %rcx
 	movq	16(%rsp), %rbx
 	movq	24(%rsp), %r9
 	movzbl	32(%rsp), %r11d
 	movl	36(%rsp), %r10d
-	jle	.L276
+	jle	.L283
 	leaq	-1(%rcx), %rdx
 	movq	%rdx, %r8
 	shrq	$63, %r8
@@ -1996,10 +2063,10 @@ _ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_
 	sarq	%rdx
 	leaq	(%rdx,%rdx,2), %r8
 	cmpq	8(%rdi,%r8,8), %r9
-	jbe	.L276
+	jbe	.L283
 	.p2align 4,,10
 	.p2align 3
-.L278:
+.L285:
 	leaq	(%rdx,%rdx,2), %rax
 	leaq	(%rcx,%rcx,2), %rcx
 	cmpq	%rdx, %rsi
@@ -2011,7 +2078,7 @@ _ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_
 	movq	%r8, 8(%rcx)
 	movq	16(%rax), %r8
 	movq	%r8, 16(%rcx)
-	jge	.L276
+	jge	.L283
 	leaq	-1(%rdx), %rcx
 	movq	%rcx, %r8
 	shrq	$63, %r8
@@ -2020,20 +2087,20 @@ _ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_
 	sarq	%r8
 	leaq	(%r8,%r8,2), %rdx
 	cmpq	8(%rdi,%rdx,8), %r9
-	jbe	.L276
+	jbe	.L283
 	movq	%r8, %rdx
-	jmp	.L278
-.L290:
+	jmp	.L285
+.L297:
 	leaq	(%rsi,%rsi,2), %rax
 	testb	$1, %dl
 	movq	%rsi, %rcx
 	leaq	(%rdi,%rax,8), %rax
-	je	.L271
+	je	.L278
 	movzbl	32(%rsp), %r11d
 	movq	16(%rsp), %rbx
 	movq	24(%rsp), %r9
 	movl	36(%rsp), %r10d
-.L276:
+.L283:
 	movq	%rbx, (%rax)
 	movq	%r9, 8(%rax)
 	movb	%r11b, 16(%rax)
@@ -2044,7 +2111,7 @@ _ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_
 	ret
 	.p2align 4,,10
 	.p2align 3
-.L291:
+.L298:
 	.cfi_restore_state
 	leaq	1(%rcx,%rcx), %rcx
 	leaq	(%rcx,%rcx,2), %rdx
@@ -2056,27 +2123,27 @@ _ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_
 	movq	16(%rdx), %r8
 	movq	%r8, 16(%rax)
 	movq	%rdx, %rax
-	jmp	.L275
+	jmp	.L282
 	.cfi_endproc
-.LFE8839:
+.LFE8921:
 	.size	_ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElS2_NS0_5__ops15_Iter_less_iterEEvT_T0_SB_T1_T2_, .-_ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElS2_NS0_5__ops15_Iter_less_iterEEvT_T0_SB_T1_T2_
 	.section	.text.unlikely._ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElS2_NS0_5__ops15_Iter_less_iterEEvT_T0_SB_T1_T2_,"axG",@progbits,_ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElS2_NS0_5__ops15_Iter_less_iterEEvT_T0_SB_T1_T2_,comdat
-.LCOLDE27:
+.LCOLDE30:
 	.section	.text._ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElS2_NS0_5__ops15_Iter_less_iterEEvT_T0_SB_T1_T2_,"axG",@progbits,_ZSt13__adjust_heapIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElS2_NS0_5__ops15_Iter_less_iterEEvT_T0_SB_T1_T2_,comdat
-.LHOTE27:
+.LHOTE30:
 	.section	.text.unlikely
-.LCOLDB28:
+.LCOLDB31:
 	.text
-.LHOTB28:
+.LHOTB31:
 	.p2align 4,,15
-	.type	_ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElNS0_5__ops15_Iter_less_iterEEvT_SA_T0_T1_.isra.75, @function
-_ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElNS0_5__ops15_Iter_less_iterEEvT_SA_T0_T1_.isra.75:
-.LFB8943:
+	.type	_ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElNS0_5__ops15_Iter_less_iterEEvT_SA_T0_T1_.isra.74, @function
+_ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElNS0_5__ops15_Iter_less_iterEEvT_SA_T0_T1_.isra.74:
+.LFB9022:
 	.cfi_startproc
 	movq	%rsi, %rax
 	subq	%rdi, %rax
 	cmpq	$407, %rax
-	jle	.L315
+	jle	.L322
 	pushq	%r15
 	.cfi_def_cfa_offset 16
 	.cfi_offset 15, -16
@@ -2100,13 +2167,13 @@ _ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaI
 	subq	$56, %rsp
 	.cfi_def_cfa_offset 112
 	testq	%rdx, %rdx
-	je	.L317
+	je	.L324
 	leaq	24(%rdi), %rax
 	leaq	48(%rdi), %r12
 	movq	%rsi, %rbp
 	movq	%rsi, %r14
 	movq	%rax, 8(%rsp)
-.L297:
+.L304:
 	subq	%r15, %r14
 	movabsq	$-6148914691236517205, %rax
 	subq	$8, %rsp
@@ -2135,26 +2202,26 @@ _ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaI
 	movq	%rbp, %rdx
 	.p2align 4,,10
 	.p2align 3
-.L302:
+.L309:
 	movq	-16(%rsi), %rdi
 	leaq	-24(%rsi), %r14
 	movq	%r14, %r13
 	cmpq	%rcx, %rdi
-	jb	.L303
+	jb	.L310
 	cmpq	%rcx, -16(%rdx)
 	leaq	-24(%rdx), %rax
-	jbe	.L309
+	jbe	.L316
 	leaq	-48(%rdx), %rax
 	.p2align 4,,10
 	.p2align 3
-.L305:
+.L312:
 	movq	%rax, %rdx
 	subq	$24, %rax
 	cmpq	%rcx, 32(%rax)
-	ja	.L305
+	ja	.L312
 	cmpq	%rdx, %r14
-	jnb	.L318
-.L306:
+	jnb	.L325
+.L313:
 	movq	(%rdx), %r10
 	movq	-24(%rsi), %r9
 	movzbl	-8(%rsi), %ecx
@@ -2169,41 +2236,41 @@ _ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaI
 	movb	%cl, 16(%rdx)
 	movl	%eax, 20(%rdx)
 	movq	8(%r15), %rcx
-.L303:
+.L310:
 	addq	$24, %rsi
-	jmp	.L302
-.L309:
+	jmp	.L309
+.L316:
 	movq	%rax, %rdx
 	cmpq	%rdx, %r14
-	jb	.L306
-.L318:
+	jb	.L313
+.L325:
 	movq	%rbx, %rdx
 	movq	%rbp, %rsi
 	movq	%r14, %rdi
-	call	_ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElNS0_5__ops15_Iter_less_iterEEvT_SA_T0_T1_.isra.75
+	call	_ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElNS0_5__ops15_Iter_less_iterEEvT_SA_T0_T1_.isra.74
 	movq	%r14, %rax
 	subq	%r15, %rax
 	cmpq	$407, %rax
-	jle	.L292
+	jle	.L299
 	testq	%rbx, %rbx
-	je	.L296
+	je	.L303
 	movq	%r14, %rbp
-	jmp	.L297
-.L296:
+	jmp	.L304
+.L303:
 	sarq	$3, %rax
 	movabsq	$-6148914691236517205, %r12
 	imulq	%rax, %r12
-.L308:
+.L315:
 	leaq	-2(%r12), %rbx
 	sarq	%rbx
 	leaq	(%rbx,%rbx,2), %rax
 	leaq	(%r15,%rax,8), %rbp
-	jmp	.L299
+	jmp	.L306
 	.p2align 4,,10
 	.p2align 3
-.L319:
+.L326:
 	subq	$1, %rbx
-.L299:
+.L306:
 	movq	8(%rbp), %rdx
 	movq	0(%rbp), %rax
 	movq	%rbx, %rsi
@@ -2226,10 +2293,10 @@ _ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaI
 	addq	$32, %rsp
 	.cfi_def_cfa_offset 112
 	testq	%rbx, %rbx
-	jne	.L319
+	jne	.L326
 	leaq	-24(%r13), %rbx
 	movabsq	$-6148914691236517205, %r12
-.L300:
+.L307:
 	movq	(%r15), %rdx
 	movq	(%rbx), %rax
 	movq	%rbx, %rbp
@@ -2262,8 +2329,8 @@ _ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaI
 	addq	$32, %rsp
 	.cfi_def_cfa_offset 112
 	cmpq	$47, %rbp
-	jg	.L300
-.L292:
+	jg	.L307
+.L299:
 	addq	$56, %rsp
 	.cfi_def_cfa_offset 56
 	popq	%rbx
@@ -2284,9 +2351,9 @@ _ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaI
 	popq	%r15
 	.cfi_restore 15
 	.cfi_def_cfa_offset 8
-.L315:
+.L322:
 	ret
-.L317:
+.L324:
 	.cfi_def_cfa_offset 112
 	.cfi_offset 3, -56
 	.cfi_offset 6, -48
@@ -2298,45 +2365,45 @@ _ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaI
 	movabsq	$-6148914691236517205, %r12
 	movq	%rsi, %r13
 	imulq	%rax, %r12
-	jmp	.L308
+	jmp	.L315
 	.cfi_endproc
-.LFE8943:
-	.size	_ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElNS0_5__ops15_Iter_less_iterEEvT_SA_T0_T1_.isra.75, .-_ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElNS0_5__ops15_Iter_less_iterEEvT_SA_T0_T1_.isra.75
+.LFE9022:
+	.size	_ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElNS0_5__ops15_Iter_less_iterEEvT_SA_T0_T1_.isra.74, .-_ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElNS0_5__ops15_Iter_less_iterEEvT_SA_T0_T1_.isra.74
 	.section	.text.unlikely
-.LCOLDE28:
+.LCOLDE31:
 	.text
-.LHOTE28:
+.LHOTE31:
 	.section	.rodata.str1.8
 	.align 8
-.LC29:
+.LC32:
 	.string	"ASSERT error at line %d: (v = (char *)mmap(0, ALLOC_SIZE * n, PROT_READ | PROT_WRITE, ALLOC_FLAG, -1, 0)) != MAP_FAILED"
 	.section	.rodata.str1.1
-.LC30:
-	.string	"chunk "
-.LC31:
-	.string	": "
-.LC32:
-	.string	"pages"
 .LC33:
-	.string	"return from chunk "
+	.string	"chunk "
 .LC34:
-	.string	" ("
+	.string	": "
 .LC35:
-	.string	" / "
+	.string	"pages"
 .LC36:
+	.string	"return from chunk "
+.LC37:
+	.string	" ("
+.LC38:
+	.string	" / "
+.LC39:
 	.string	" pages)"
 	.section	.text.unlikely
-.LCOLDB37:
+.LCOLDB40:
 	.text
-.LHOTB37:
+.LHOTB40:
 	.p2align 4,,15
 	.globl	_Z28get_contiguous_aligned_pagesiii
 	.type	_Z28get_contiguous_aligned_pagesiii, @function
 _Z28get_contiguous_aligned_pagesiii:
-.LFB8246:
+.LFB8332:
 	.cfi_startproc
 	.cfi_personality 0x3,__gxx_personality_v0
-	.cfi_lsda 0x3,.LLSDA8246
+	.cfi_lsda 0x3,.LLSDA8332
 	pushq	%rbp
 	.cfi_def_cfa_offset 16
 	.cfi_offset 6, -16
@@ -2372,21 +2439,21 @@ _Z28get_contiguous_aligned_pagesiii:
 	movq	$_Z6chunksB5cxx11, _Z6chunksB5cxx11+8(%rip)
 	movq	$0, _Z6chunksB5cxx11+16(%rip)
 	movq	%rbx, pool+8(%rip)
-	jne	.L400
+	jne	.L407
 	testl	%r12d, %r12d
-	jle	.L331
-.L362:
+	jle	.L338
+.L369:
 	leal	-1(%r12), %eax
 	xorl	%r15d, %r15d
 	leaq	(%rax,%rax,2), %r13
 	salq	$3, %r13
-	jmp	.L325
+	jmp	.L332
 	.p2align 4,,10
 	.p2align 3
-.L402:
+.L409:
 	addq	$24, %rax
 	movq	%rax, %r15
-.L325:
+.L332:
 	addq	%r15, %rbx
 	xorl	%r9d, %r9d
 	xorl	%edi, %edi
@@ -2399,7 +2466,7 @@ _Z28get_contiguous_aligned_pagesiii:
 	call	mmap
 	cmpq	$-1, %rax
 	movq	%rax, (%rbx)
-	je	.L401
+	je	.L408
 	movl	20(%rbx), %edx
 	movq	%rax, %rdi
 	xorl	%esi, %esi
@@ -2413,12 +2480,12 @@ _Z28get_contiguous_aligned_pagesiii:
 	movq	%rax, 8(%rbx)
 	movq	%r15, %rax
 	movq	pool(%rip), %rbx
-	jne	.L402
-.L322:
+	jne	.L409
+.L329:
 	movq	pool+8(%rip), %rax
 	cmpq	%rbx, %rax
 	movq	%rax, %r15
-	je	.L327
+	je	.L334
 	movq	%rax, %r13
 	movabsq	$-6148914691236517205, %rax
 	movq	%r15, %rsi
@@ -2433,9 +2500,9 @@ _Z28get_contiguous_aligned_pagesiii:
 	cltq
 	subq	%rax, %rdx
 	addq	%rdx, %rdx
-	call	_ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElNS0_5__ops15_Iter_less_iterEEvT_SA_T0_T1_.isra.75
+	call	_ZSt16__introsort_loopIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEElNS0_5__ops15_Iter_less_iterEEvT_SA_T0_T1_.isra.74
 	cmpq	$407, %r13
-	jle	.L328
+	jle	.L335
 	subq	$8, %rsp
 	leaq	384(%rbx), %r13
 	movq	%rbx, %rdi
@@ -2445,21 +2512,21 @@ _Z28get_contiguous_aligned_pagesiii:
 	cmpq	%r13, %r15
 	popq	%rdi
 	popq	%r8
-	je	.L327
+	je	.L334
 	movq	%r13, %rbx
-.L330:
+.L337:
 	movq	%rbx, %rdi
 	addq	$24, %rbx
-	call	_ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops14_Val_less_iterEEvT_T0_.isra.50
+	call	_ZSt25__unguarded_linear_insertIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops14_Val_less_iterEEvT_T0_.isra.49
 	cmpq	%rbx, %r15
-	jne	.L330
-.L327:
+	jne	.L337
+.L334:
 	testl	%r12d, %r12d
-	jle	.L331
+	jle	.L338
 	xorl	%ebx, %ebx
 	.p2align 4,,10
 	.p2align 3
-.L360:
+.L367:
 	movl	$40, %edi
 	call	_Znwm
 	movq	$0, (%rax)
@@ -2479,89 +2546,89 @@ _Z28get_contiguous_aligned_pagesiii:
 	movq	%r13, %rsi
 	addq	pool(%rip), %rsi
 	cmpq	32(%rdx), %rax
-	je	.L332
+	je	.L339
 	testq	%rax, %rax
-	je	.L333
+	je	.L340
 	movq	(%rsi), %rcx
 	movq	%rcx, (%rax)
 	movq	8(%rsi), %rcx
 	movq	%rcx, 8(%rax)
 	movq	16(%rsi), %rcx
 	movq	%rcx, 16(%rax)
-.L333:
+.L340:
 	addq	$24, %rax
 	movq	%rax, 24(%rdx)
-.L334:
+.L341:
 	addl	$1, %ebx
 	cmpl	%ebx, %r12d
-	jle	.L331
+	jle	.L338
 	movq	pool(%rip), %rsi
 	leaq	24(%r13), %rax
 	movq	%rax, %r15
 	movq	32(%rsi,%r13), %rax
 	subq	8(%rsi,%r13), %rax
 	cmpq	$2097152, %rax
-	jne	.L360
+	jne	.L367
 	.p2align 4,,10
 	.p2align 3
-.L336:
+.L343:
 	movq	_Z6chunksB5cxx11+8(%rip), %rdi
 	addl	$1, %ebx
 	addq	%r15, %rsi
 	movq	24(%rdi), %rax
 	cmpq	32(%rdi), %rax
-	je	.L403
+	je	.L410
 	testq	%rax, %rax
-	je	.L338
+	je	.L345
 	movq	(%rsi), %rdx
 	movq	%rdx, (%rax)
 	movq	8(%rsi), %rdx
 	movq	%rdx, 8(%rax)
 	movq	16(%rsi), %rdx
 	movq	%rdx, 16(%rax)
-.L338:
+.L345:
 	addq	$24, %rax
 	movq	%rax, 24(%rdi)
-.L339:
+.L346:
 	cmpl	%ebx, %r12d
-	je	.L331
+	je	.L338
 	movq	pool(%rip), %rsi
 	leaq	24(%r15), %rdx
 	movq	8(%rsi,%rdx), %rax
 	subq	8(%rsi,%r15), %rax
 	cmpq	$2097152, %rax
-	jne	.L360
+	jne	.L367
 	movq	%rdx, %r15
-	jmp	.L336
-	.p2align 4,,10
-	.p2align 3
-.L331:
-	movq	_Z6chunksB5cxx11(%rip), %rbx
-	cmpq	$_Z6chunksB5cxx11, %rbx
-	je	.L320
-	movl	$0, -52(%rbp)
-	movabsq	$-6148914691236517205, %r12
 	jmp	.L343
 	.p2align 4,,10
 	.p2align 3
-.L406:
+.L338:
+	movq	_Z6chunksB5cxx11(%rip), %rbx
+	cmpq	$_Z6chunksB5cxx11, %rbx
+	je	.L327
+	movl	$0, -52(%rbp)
+	movabsq	$-6148914691236517205, %r12
+	jmp	.L350
+	.p2align 4,,10
+	.p2align 3
+.L413:
 	movsbl	67(%r15), %esi
-.L342:
+.L349:
 	movq	%r13, %rdi
 	call	_ZNSo3putEc
 	movq	%rax, %rdi
 	call	_ZNSo5flushEv
 	movq	(%rbx), %rbx
 	cmpq	$_Z6chunksB5cxx11, %rbx
-	je	.L404
+	je	.L411
 	.p2align 4,,10
 	.p2align 3
-.L343:
+.L350:
 	movq	24(%rbx), %r13
 	subq	16(%rbx), %r13
 	movl	$6, %edx
 	addl	$1, -52(%rbp)
-	movl	$.LC30, %esi
+	movl	$.LC33, %esi
 	movl	$_ZSt4cout, %edi
 	movl	-52(%rbp), %r15d
 	sarq	$3, %r13
@@ -2571,7 +2638,7 @@ _Z28get_contiguous_aligned_pagesiii:
 	movl	$_ZSt4cout, %edi
 	call	_ZNSolsEi
 	movl	$2, %edx
-	movl	$.LC31, %esi
+	movl	$.LC34, %esi
 	movq	%rax, %rdi
 	movq	%rax, %r15
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
@@ -2579,7 +2646,7 @@ _Z28get_contiguous_aligned_pagesiii:
 	movq	%r15, %rdi
 	call	_ZNSo9_M_insertImEERSoT_
 	movl	$5, %edx
-	movl	$.LC32, %esi
+	movl	$.LC35, %esi
 	movq	%rax, %rdi
 	movq	%rax, %r13
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
@@ -2587,32 +2654,32 @@ _Z28get_contiguous_aligned_pagesiii:
 	movq	-24(%rax), %rax
 	movq	240(%r13,%rax), %r15
 	testq	%r15, %r15
-	je	.L405
+	je	.L412
 	cmpb	$0, 56(%r15)
-	jne	.L406
+	jne	.L413
 	movq	%r15, %rdi
 	call	_ZNKSt5ctypeIcE13_M_widen_initEv
 	movq	(%r15), %rax
 	movl	$10, %esi
 	movq	48(%rax), %rax
 	cmpq	$_ZNKSt5ctypeIcE8do_widenEc, %rax
-	je	.L342
+	je	.L349
 	movq	%r15, %rdi
 	call	*%rax
 	movsbl	%al, %esi
-	jmp	.L342
-.L408:
+	jmp	.L349
+.L415:
 	movl	$0, -52(%rbp)
-.L346:
+.L353:
 	movl	$18, %edx
-	movl	$.LC33, %esi
+	movl	$.LC36, %esi
 	movl	$_ZSt4cout, %edi
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
 	movl	-68(%rbp), %esi
 	movl	$_ZSt4cout, %edi
 	call	_ZNSolsEi
 	movl	$2, %edx
-	movl	$.LC34, %esi
+	movl	$.LC37, %esi
 	movq	%rax, %rdi
 	movq	%rax, %r14
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
@@ -2620,7 +2687,7 @@ _Z28get_contiguous_aligned_pagesiii:
 	movq	%r14, %rdi
 	call	_ZNSolsEi
 	movl	$3, %edx
-	movl	$.LC35, %esi
+	movl	$.LC38, %esi
 	movq	%rax, %rdi
 	movq	%rax, %r14
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
@@ -2628,7 +2695,7 @@ _Z28get_contiguous_aligned_pagesiii:
 	movq	%r14, %rdi
 	call	_ZNSo9_M_insertImEERSoT_
 	movl	$7, %edx
-	movl	$.LC36, %esi
+	movl	$.LC39, %esi
 	movq	%rax, %rdi
 	movq	%rax, %r14
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
@@ -2636,11 +2703,11 @@ _Z28get_contiguous_aligned_pagesiii:
 	movq	-24(%rax), %rax
 	movq	240(%r14,%rax), %r12
 	testq	%r12, %r12
-	je	.L407
+	je	.L414
 	cmpb	$0, 56(%r12)
-	je	.L350
+	je	.L357
 	movsbl	67(%r12), %esi
-.L351:
+.L358:
 	movq	%r14, %rdi
 	call	_ZNSo3putEc
 	movq	%rax, %rdi
@@ -2659,8 +2726,8 @@ _Z28get_contiguous_aligned_pagesiii:
 	popq	%rdx
 	movl	-56(%rbp), %edx
 	addl	%ebx, %edx
-	cmpl	%ebx, %edx
-	jle	.L320
+	cmpl	%edx, %ebx
+	jge	.L327
 	subl	%ebx, %edx
 	movslq	%ebx, %rcx
 	subl	$1, %edx
@@ -2669,17 +2736,17 @@ _Z28get_contiguous_aligned_pagesiii:
 	salq	$3, %rax
 	leaq	(%rdx,%rdx,2), %rcx
 	salq	$3, %rcx
-.L353:
+.L360:
 	movq	16(%r13), %rdx
 	movq	(%rdx,%rax), %rdx
 	testq	%rdx, %rdx
-	je	.L352
+	je	.L359
 	movb	$33, (%rdx)
-.L352:
+.L359:
 	addq	$24, %rax
 	cmpq	%rax, %rcx
-	jne	.L353
-.L320:
+	jne	.L360
+.L327:
 	movq	-64(%rbp), %rax
 	leaq	-40(%rbp), %rsp
 	popq	%rbx
@@ -2693,61 +2760,61 @@ _Z28get_contiguous_aligned_pagesiii:
 	ret
 	.p2align 4,,10
 	.p2align 3
-.L403:
+.L410:
 	.cfi_restore_state
 	addq	$16, %rdi
 	.cfi_escape 0x2e,0
 	call	_ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_
-	jmp	.L339
-.L332:
+	jmp	.L346
+.L339:
 	leaq	16(%rdx), %rdi
 	call	_ZNSt6vectorI8HugePageSaIS0_EE19_M_emplace_back_auxIJRKS0_EEEvDpOT_
-	jmp	.L334
-.L404:
+	jmp	.L341
+.L411:
 	movq	_Z6chunksB5cxx11(%rip), %r13
 	cmpq	$_Z6chunksB5cxx11, %r13
-	je	.L320
+	je	.L327
 	movslq	-56(%rbp), %r15
 	movl	$0, -68(%rbp)
 	movabsq	$-6148914691236517205, %rdi
-.L355:
+.L362:
 	movq	16(%r13), %rcx
 	movq	24(%r13), %r12
 	subq	%rcx, %r12
 	sarq	$3, %r12
 	imulq	%rdi, %r12
-	cmpq	%r12, %r15
-	ja	.L345
+	cmpq	%r15, %r12
+	jb	.L352
 	movq	%r12, %rsi
 	addl	$1, -68(%rbp)
 	subq	%r15, %rsi
-	je	.L345
+	je	.L352
 	movq	%r14, %rbx
 	andq	8(%rcx), %rbx
-	je	.L408
+	je	.L415
 	subq	$1, %rsi
 	movl	$24, %ebx
 	xorl	%eax, %eax
 	movl	$0, -52(%rbp)
-	jmp	.L348
+	jmp	.L355
 	.p2align 4,,10
 	.p2align 3
-.L354:
+.L361:
 	addq	$1, %rax
 	testq	%r14, 8(%rcx,%rbx)
 	leaq	24(%rbx), %rdx
-	je	.L346
+	je	.L353
 	movq	%rdx, %rbx
-.L348:
+.L355:
 	addl	$1, -52(%rbp)
-	cmpq	%rsi, %rax
-	jne	.L354
-.L345:
+	cmpq	%rax, %rsi
+	jne	.L361
+.L352:
 	movq	0(%r13), %r13
 	cmpq	$_Z6chunksB5cxx11, %r13
-	jne	.L355
-	jmp	.L320
-.L328:
+	jne	.L362
+	jmp	.L327
+.L335:
 	subq	$8, %rsp
 	movq	%r15, %rsi
 	movq	%rbx, %rdi
@@ -2755,115 +2822,116 @@ _Z28get_contiguous_aligned_pagesiii:
 	call	_ZSt16__insertion_sortIN9__gnu_cxx17__normal_iteratorIP8HugePageSt6vectorIS2_SaIS2_EEEENS0_5__ops15_Iter_less_iterEEvT_SA_T0_
 	popq	%rcx
 	popq	%rsi
-	jmp	.L327
-.L350:
+	jmp	.L334
+.L357:
 	movq	%r12, %rdi
 	call	_ZNKSt5ctypeIcE13_M_widen_initEv
 	movq	(%r12), %rax
 	movl	$10, %esi
 	movq	48(%rax), %rax
 	cmpq	$_ZNKSt5ctypeIcE8do_widenEc, %rax
-	je	.L351
+	je	.L358
 	movq	%r12, %rdi
 	call	*%rax
 	movsbl	%al, %esi
-	jmp	.L351
-.L400:
+	jmp	.L358
+.L407:
 	movl	$pool, %edi
 	call	_ZNSt6vectorI8HugePageSaIS0_EE17_M_default_appendEm
 	testl	%r12d, %r12d
 	movq	pool(%rip), %rbx
-	jg	.L362
-	jmp	.L322
-.L407:
+	jg	.L369
+	jmp	.L329
+.L414:
 	call	_ZSt16__throw_bad_castv
-.L401:
+.L408:
 	movq	stderr(%rip), %rdi
-	movl	$64, %edx
-	movl	$.LC29, %esi
+	movl	$64, %ecx
+	movl	$.LC32, %edx
+	movl	$1, %esi
 	xorl	%eax, %eax
-	call	fprintf
-	movl	$.LC7, %edi
+	call	__fprintf_chk
+	movl	$.LC10, %edi
 	call	perror
 .LEHE0:
 	movl	$-1, %edi
 	call	exit
-.L368:
+.L375:
 	movq	%rax, %rbx
 	movq	-64(%rbp), %rax
 	movq	(%rax), %rdi
 	testq	%rdi, %rdi
-	je	.L357
+	je	.L364
 	call	_ZdlPv
-.L357:
+.L364:
 	movq	%rbx, %rdi
 .LEHB1:
 	call	_Unwind_Resume
 .LEHE1:
-.L405:
+.L412:
 .LEHB2:
 	call	_ZSt16__throw_bad_castv
 .LEHE2:
 	.cfi_endproc
-.LFE8246:
+.LFE8332:
 	.globl	__gxx_personality_v0
 	.section	.gcc_except_table,"a",@progbits
-.LLSDA8246:
+.LLSDA8332:
 	.byte	0xff
 	.byte	0xff
 	.byte	0x1
-	.uleb128 .LLSDACSE8246-.LLSDACSB8246
-.LLSDACSB8246:
-	.uleb128 .LEHB0-.LFB8246
+	.uleb128 .LLSDACSE8332-.LLSDACSB8332
+.LLSDACSB8332:
+	.uleb128 .LEHB0-.LFB8332
 	.uleb128 .LEHE0-.LEHB0
-	.uleb128 .L368-.LFB8246
+	.uleb128 .L375-.LFB8332
 	.uleb128 0
-	.uleb128 .LEHB1-.LFB8246
+	.uleb128 .LEHB1-.LFB8332
 	.uleb128 .LEHE1-.LEHB1
 	.uleb128 0
 	.uleb128 0
-	.uleb128 .LEHB2-.LFB8246
+	.uleb128 .LEHB2-.LFB8332
 	.uleb128 .LEHE2-.LEHB2
-	.uleb128 .L368-.LFB8246
+	.uleb128 .L375-.LFB8332
 	.uleb128 0
-.LLSDACSE8246:
+.LLSDACSE8332:
 	.text
 	.size	_Z28get_contiguous_aligned_pagesiii, .-_Z28get_contiguous_aligned_pagesiii
 	.section	.text.unlikely
-.LCOLDE37:
+.LCOLDE40:
 	.text
-.LHOTE37:
+.LHOTE40:
 	.section	.rodata.str1.1
-.LC38:
+.LC41:
 	.string	"/proc/self/pagemap"
 	.section	.rodata.str1.8
 	.align 8
-.LC39:
+.LC42:
 	.string	"ASSERT error at line %d: (fd = open(\"/proc/self/pagemap\", O_RDONLY)) > 0"
 	.section	.rodata.str1.1
-.LC40:
-	.string	"HugePage v=0x"
-.LC41:
-	.string	" p=0x"
-.LC42:
-	.string	"HugePage "
 .LC43:
-	.string	"pages:"
+	.string	"HugePage v=0x"
 .LC44:
-	.string	"\t v=0x"
+	.string	" p=0x"
 .LC45:
-	.string	"Min Latency for bit #"
+	.string	"HugePage "
 .LC46:
+	.string	"pages:"
+.LC47:
+	.string	"\t v=0x"
+.LC48:
+	.string	"Min Latency for bit #"
+.LC49:
 	.string	" = "
 	.section	.text.unlikely
-.LCOLDB47:
+.LCOLDB50:
 	.section	.text.startup,"ax",@progbits
-.LHOTB47:
+.LHOTB50:
 	.p2align 4,,15
 	.globl	main
 	.type	main, @function
 main:
-.LFB8251:
+.LFB8337:
 	.cfi_startproc
 	pushq	%r15
 	.cfi_def_cfa_offset 16
@@ -2878,20 +2946,22 @@ main:
 	pushq	%r12
 	.cfi_def_cfa_offset 40
 	.cfi_offset 12, -40
-	xorl	%eax, %eax
+	movl	$.LC41, %edi
 	pushq	%rbp
 	.cfi_def_cfa_offset 48
 	.cfi_offset 6, -48
 	pushq	%rbx
 	.cfi_def_cfa_offset 56
 	.cfi_offset 3, -56
-	movl	$.LC38, %edi
 	subq	$40, %rsp
 	.cfi_def_cfa_offset 96
+	movq	%fs:40, %rax
+	movq	%rax, 24(%rsp)
+	xorl	%eax, %eax
 	call	open
 	testl	%eax, %eax
 	movl	%eax, fd(%rip)
-	jle	.L461
+	jle	.L469
 	movq	%rsp, %rdi
 	movl	$128, %ecx
 	movl	$32, %edx
@@ -2908,29 +2978,29 @@ main:
 	movq	16(%rsp), %rax
 	movq	$0, 16(%rsp)
 	movq	%rax, pages+16(%rip)
-	je	.L411
+	je	.L418
 	call	_ZdlPv
-.L411:
+.L418:
 	movq	(%rsp), %rdi
 	testq	%rdi, %rdi
-	je	.L412
+	je	.L419
 	call	_ZdlPv
-.L412:
+.L419:
 	xorl	%edi, %edi
 	call	_Z7cleanupb
 	movq	pages+8(%rip), %r14
 	movq	pages(%rip), %r13
 	cmpq	%r14, %r13
-	je	.L429
+	je	.L436
 	.p2align 4,,10
 	.p2align 3
-.L447:
+.L455:
 	movl	20(%r13), %ebp
 	movq	0(%r13), %rbx
 	cmpl	$1, %ebp
-	je	.L462
+	je	.L470
 	movl	$9, %edx
-	movl	$.LC42, %esi
+	movl	$.LC45, %esi
 	movl	$_ZSt4cout, %edi
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
 	movl	%ebp, %esi
@@ -2938,46 +3008,46 @@ main:
 	call	_ZNSolsEi
 	movl	$6, %edx
 	movq	%rax, %r12
-	movl	$.LC43, %esi
+	movl	$.LC46, %esi
 	movq	%rax, %rdi
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
 	movq	(%r12), %rax
 	movq	-24(%rax), %rax
 	movq	240(%r12,%rax), %r15
 	testq	%r15, %r15
-	je	.L420
+	je	.L427
 	cmpb	$0, 56(%r15)
-	je	.L421
+	je	.L428
 	movsbl	67(%r15), %esi
-.L422:
+.L429:
 	movq	%r12, %rdi
 	call	_ZNSo3putEc
 	movq	%rax, %rdi
 	call	_ZNSo5flushEv
 	testl	%ebp, %ebp
-	jle	.L419
+	jle	.L426
 	leal	-1(%rbp), %r12d
 	addq	$1, %r12
 	salq	$21, %r12
 	addq	%rbx, %r12
-	jmp	.L427
+	jmp	.L434
 	.p2align 4,,10
 	.p2align 3
-.L463:
+.L471:
 	movsbl	67(%rbp), %esi
-.L425:
+.L432:
 	movq	%r15, %rdi
 	addq	$2097152, %rbx
 	call	_ZNSo3putEc
 	movq	%rax, %rdi
 	call	_ZNSo5flushEv
 	cmpq	%r12, %rbx
-	je	.L419
-.L427:
+	je	.L426
+.L434:
 	movq	%rbx, %rdi
 	call	_Z3v2pPv
 	movl	$6, %edx
-	movl	$.LC44, %esi
+	movl	$.LC47, %esi
 	movl	$_ZSt4cout, %edi
 	movq	%rax, %rbp
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
@@ -2992,7 +3062,7 @@ main:
 	call	_ZNSo9_M_insertImEERSoT_
 	movl	$5, %edx
 	movq	%rax, %r15
-	movl	$.LC41, %esi
+	movl	$.LC44, %esi
 	movq	%rax, %rdi
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
 	movq	%rbp, %rsi
@@ -3003,25 +3073,25 @@ main:
 	movq	-24(%rax), %rax
 	movq	240(%r15,%rax), %rbp
 	testq	%rbp, %rbp
-	je	.L420
+	je	.L427
 	cmpb	$0, 56(%rbp)
-	jne	.L463
+	jne	.L471
 	movq	%rbp, %rdi
 	call	_ZNKSt5ctypeIcE13_M_widen_initEv
 	movq	0(%rbp), %rax
 	movl	$10, %esi
 	movq	48(%rax), %rax
 	cmpq	$_ZNKSt5ctypeIcE8do_widenEc, %rax
-	je	.L425
+	je	.L432
 	movq	%rbp, %rdi
 	call	*%rax
 	movsbl	%al, %esi
-	jmp	.L425
+	jmp	.L432
 	.p2align 4,,10
 	.p2align 3
-.L462:
+.L470:
 	movl	$13, %edx
-	movl	$.LC40, %esi
+	movl	$.LC43, %esi
 	movl	$_ZSt4cout, %edi
 	movq	8(%r13), %rbp
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
@@ -3036,7 +3106,7 @@ main:
 	call	_ZNSo9_M_insertImEERSoT_
 	movl	$5, %edx
 	movq	%rax, %rbx
-	movl	$.LC41, %esi
+	movl	$.LC44, %esi
 	movq	%rax, %rdi
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
 	movq	%rbp, %rsi
@@ -3047,47 +3117,47 @@ main:
 	movq	-24(%rax), %rax
 	movq	240(%rbp,%rax), %rbx
 	testq	%rbx, %rbx
-	je	.L420
+	je	.L427
 	cmpb	$0, 56(%rbx)
-	je	.L417
+	je	.L424
 	movsbl	67(%rbx), %esi
-.L418:
+.L425:
 	movq	%rbp, %rdi
 	call	_ZNSo3putEc
 	movq	%rax, %rdi
 	call	_ZNSo5flushEv
-.L419:
+.L426:
 	addq	$24, %r13
 	cmpq	%r13, %r14
-	jne	.L447
-.L429:
+	jne	.L455
+.L436:
 	movl	$25, %esi
 	movl	$100, %edi
 	movl	$2, %r12d
 	call	_Z7genseedii
-.L414:
+.L421:
 	xorl	%ebx, %ebx
-	jmp	.L432
+	jmp	.L439
 	.p2align 4,,10
 	.p2align 3
-.L465:
+.L473:
 	movsbl	67(%rbp), %esi
-.L431:
+.L438:
 	movq	%r13, %rdi
 	addl	$1, %ebx
 	call	_ZNSo3putEc
 	movq	%rax, %rdi
 	call	_ZNSo5flushEv
 	cmpl	$26, %ebx
-	je	.L464
-.L432:
+	je	.L472
+.L439:
 	movl	$-1, %edx
 	movl	%ebx, %edi
 	movl	%edx, %esi
 	call	_Z7latencyiii
 	movq	%rax, %rbp
 	movq	_ZSt4cout(%rip), %rax
-	movl	$.LC45, %esi
+	movl	$.LC48, %esi
 	movl	$_ZSt4cout, %edi
 	movq	-24(%rax), %rdx
 	movl	_ZSt4cout+24(%rdx), %eax
@@ -3101,7 +3171,7 @@ main:
 	call	_ZNSolsEi
 	movl	$3, %edx
 	movq	%rax, %r13
-	movl	$.LC46, %esi
+	movl	$.LC49, %esi
 	movq	%rax, %rdi
 	call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
 	movq	%rbp, %rsi
@@ -3112,45 +3182,48 @@ main:
 	movq	-24(%rax), %rax
 	movq	240(%r13,%rax), %rbp
 	testq	%rbp, %rbp
-	je	.L420
+	je	.L427
 	cmpb	$0, 56(%rbp)
-	jne	.L465
+	jne	.L473
 	movq	%rbp, %rdi
 	call	_ZNKSt5ctypeIcE13_M_widen_initEv
 	movq	0(%rbp), %rax
 	movl	$10, %esi
 	movq	48(%rax), %rax
 	cmpq	$_ZNKSt5ctypeIcE8do_widenEc, %rax
-	je	.L431
+	je	.L438
 	movq	%rbp, %rdi
 	call	*%rax
 	movsbl	%al, %esi
-	jmp	.L431
+	jmp	.L438
 	.p2align 4,,10
 	.p2align 3
-.L421:
+.L428:
 	movq	%r15, %rdi
 	call	_ZNKSt5ctypeIcE13_M_widen_initEv
 	movq	(%r15), %rax
 	movl	$10, %esi
 	movq	48(%rax), %rax
 	cmpq	$_ZNKSt5ctypeIcE8do_widenEc, %rax
-	je	.L422
+	je	.L429
 	movq	%r15, %rdi
 	call	*%rax
 	movsbl	%al, %esi
-	jmp	.L422
+	jmp	.L429
 	.p2align 4,,10
 	.p2align 3
-.L464:
+.L472:
 	subl	$1, %r12d
-	jne	.L414
+	jne	.L421
 	movl	$1, %edi
 	call	_Z7cleanupb
+	xorl	%eax, %eax
+	movq	24(%rsp), %rcx
+	xorq	%fs:40, %rcx
+	jne	.L474
 	addq	$40, %rsp
 	.cfi_remember_state
 	.cfi_def_cfa_offset 56
-	xorl	%eax, %eax
 	popq	%rbx
 	.cfi_def_cfa_offset 48
 	popq	%rbp
@@ -3164,7 +3237,7 @@ main:
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	ret
-.L417:
+.L424:
 	.cfi_restore_state
 	movq	%rbx, %rdi
 	call	_ZNKSt5ctypeIcE13_M_widen_initEv
@@ -3172,39 +3245,42 @@ main:
 	movl	$10, %esi
 	movq	48(%rax), %rax
 	cmpq	$_ZNKSt5ctypeIcE8do_widenEc, %rax
-	je	.L418
+	je	.L425
 	movl	$10, %esi
 	movq	%rbx, %rdi
 	call	*%rax
 	movsbl	%al, %esi
-	jmp	.L418
-.L420:
+	jmp	.L425
+.L427:
 	call	_ZSt16__throw_bad_castv
-.L461:
+.L469:
 	movq	stderr(%rip), %rdi
-	movl	$225, %edx
-	movl	$.LC39, %esi
+	movl	$225, %ecx
+	movl	$.LC42, %edx
+	movl	$1, %esi
 	xorl	%eax, %eax
-	call	fprintf
-	movl	$.LC7, %edi
+	call	__fprintf_chk
+	movl	$.LC10, %edi
 	call	perror
 	orl	$-1, %edi
 	call	exit
+.L474:
+	call	__stack_chk_fail
 	.cfi_endproc
-.LFE8251:
+.LFE8337:
 	.size	main, .-main
 	.section	.text.unlikely
-.LCOLDE47:
+.LCOLDE50:
 	.section	.text.startup
-.LHOTE47:
+.LHOTE50:
 	.section	.text.unlikely
-.LCOLDB48:
+.LCOLDB51:
 	.section	.text.startup
-.LHOTB48:
+.LHOTB51:
 	.p2align 4,,15
-	.type	_GLOBAL__sub_I_clock_overhead, @function
-_GLOBAL__sub_I_clock_overhead:
-.LFB8867:
+	.type	_GLOBAL__sub_I_clk_freq, @function
+_GLOBAL__sub_I_clk_freq:
+.LFB8947:
 	.cfi_startproc
 	subq	$8, %rsp
 	.cfi_def_cfa_offset 16
@@ -3247,15 +3323,15 @@ _GLOBAL__sub_I_clock_overhead:
 	.cfi_def_cfa_offset 8
 	jmp	__cxa_atexit
 	.cfi_endproc
-.LFE8867:
-	.size	_GLOBAL__sub_I_clock_overhead, .-_GLOBAL__sub_I_clock_overhead
+.LFE8947:
+	.size	_GLOBAL__sub_I_clk_freq, .-_GLOBAL__sub_I_clk_freq
 	.section	.text.unlikely
-.LCOLDE48:
+.LCOLDE51:
 	.section	.text.startup
-.LHOTE48:
+.LHOTE51:
 	.section	.init_array,"aw"
 	.align 8
-	.quad	_GLOBAL__sub_I_clock_overhead
+	.quad	_GLOBAL__sub_I_clk_freq
 	.globl	seed
 	.bss
 	.align 32
@@ -3287,8 +3363,15 @@ _Z6chunksB5cxx11:
 	.size	fd, 4
 fd:
 	.zero	4
+	.globl	clk_freq
+	.data
+	.align 8
+	.type	clk_freq, @object
+	.size	clk_freq, 8
+clk_freq:
+	.quad	-1
 	.local	_ZStL8__ioinit
 	.comm	_ZStL8__ioinit,1,1
 	.hidden	__dso_handle
-	.ident	"GCC: (GNU) 5.1.1 20150618 (Red Hat 5.1.1-4)"
+	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.4) 5.4.0 20160609"
 	.section	.note.GNU-stack,"",@progbits
