@@ -33,7 +33,7 @@ struct Page {
 };
 
 // p2v map
-map<uint64_t, void *> p2v_map;
+map<uint64_t, uint64_t> p2v_map;
 // all pages
 vector<Page> pages;
 // contiguous chunks
@@ -53,7 +53,7 @@ void analyse_memory_range(void *base, size_t length)
     {
         p = v2p((void *)i);
         // p->v mapping
-        p2v_map[p] = (void *)i;
+        p2v_map[p] = i;
         pages.push_back(Page((void *)i, p));
         i+=PAGE_SIZE;
     }
@@ -70,6 +70,23 @@ void analyse_memory_range(void *base, size_t length)
     
 }
 
+void *p2v(uint64_t p)
+{
+    uint64_t offset = p % PAGE_SIZE;
+    uint64_t base = p & ~0xfff;
+    if (p2v_map[base])
+        return (void *)(p2v_map[base] + offset);
+    else return 0;
+}
+
+// according to DRAMA, i5-3470 Ivy Bridge 4Gx2 is like Haswell
+// BA0  = 14 ^ 18
+// BA1  = 15 ^ 19
+// Rank = 16 ^ 20 (not related)
+// BA2  = 17 ^ 21 (not related)
+// channel = 7-8-9-12-13-18-19
+// column = 3..6, 8..13
+// row = 18..32
 int main(void)
 {
     // google-like mapping approach
