@@ -2,15 +2,11 @@ cppflags=-fpermissive -std=c++11 -O2
 
 default: all
 
-all: measure search
+all: hammer
 
-measure: timing.h measure.cpp
-	g++ -S $(cppflags) measure.cpp
-	g++ $(cppflags) measure.cpp -o measure
+hammer: *.h hammer_test.cpp
+	g++ $(cppflags) hammer_test.cpp -o hammer_test
 	
-search: timing.h search.cpp
-	g++ $(cppflags) search.cpp -o search
-
 clean: 
 	rm -f *.out *.s measure search
 

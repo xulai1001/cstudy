@@ -16,7 +16,7 @@ extern "C" {
 
 using namespace std;
 
-#define ALLOC_SIZE (2048 << 20)
+#define ALLOC_SIZE (2048ull << 20)
 #define ROW_COUNT (1 << 15)
 // 行地址在高位, 所以对33位物理地址(8GB)要右移18位, 取高15位
 #define ROW_SHIFT 18
@@ -37,28 +37,31 @@ char *allocate()
 {
     char *m;
     
-    cout << "Alloc size: " << mb << " mb." << endl;
     ASSERT((m = (char *)mmap(0, ALLOC_SIZE, PROT_READ | PROT_WRITE,
         MAP_POPULATE | MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) != MAP_FAILED);
     // access every page
-    for (int i=0; i<size; i+=PAGE_SIZE)
+    for (uint64_t i=0; i<ALLOC_SIZE; i+=PAGE_SIZE)
     {
         *((int *)&m[i]) = i;
     }
+    cout << "Alloc size: " << (ALLOC_SIZE >> 20) << " mb." << endl;
     // cleanup with munmap(m, ALLOC_SIZE);
     return m;
 }
 
 void analyze(char *m)
 {
+    cout << "Analyse..." << endl;
     for (uint64_t i = 0; i<ALLOC_SIZE; i+=PAGE_SIZE)
     {
         uint64_t p = v2p(&m[i]);
         uint64_t r = (p >> ROW_SHIFT);
-
+//        printf("Row #%d\n", r);
         if (rows.count(r) == 0)
             rows[r] = vector<Page>();
         rows[r].push_back(Page(&m[i], p, r));
+        if (i % 0x8000000ull == 0)
+            cout << i/0x100000ull << " MB" << endl;
     }
 }
 
@@ -71,9 +74,17 @@ int main(void)
     //2. assume 15-bit row address (256kB = 64 pages per row), put each page into corrsponding rows
     analyze(m);
     //3. select 3 rows with 64/64/64 pages (will have full control on these rows), start hammering
+    int last_row = -1;
     for (auto p : rows)
     {
-        cout << "Row #" << p.first() << " - " << p.second().length() << endl;
+        if (p.first == last_row + 1)
+            cout << "," << p.second.size();
+        else
+        {
+            cout << endl;
+            cout << "Row #" << p.first << " - " << p.second.size();
+        }
+        last_row = p.first;
     }
     //4. for each page, hammer all 64/64 pages. exhaustive
 
@@ -81,3 +92,5 @@ int main(void)
     munmap(m, ALLOC_SIZE);
     return 0;
 }
+
+
