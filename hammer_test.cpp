@@ -5,6 +5,7 @@
 #include "algorithm"
 #include "cstdio"
 #include "cstdlib"
+#include "cstring"
 
 #include "memtable.hpp"
 
@@ -38,7 +39,7 @@ vector<uint64_t> test_rows;
 uint8_t *allocate()
 {
     uint8_t *m;
-    
+
     ASSERT((m = (uint8_t *)mmap(0, ALLOC_SIZE, PROT_READ | PROT_WRITE,
         MAP_POPULATE | MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) != MAP_FAILED);
     // access every page
@@ -72,36 +73,50 @@ void fill_row(uint64_t r, uint8_t value=0xff)
     for (auto p : rows[r]) memset(p.v, value, PAGE_SIZE);
 }
 
-void check_row(uint64_t r, uint8_t value=0xff)
+int check_row(uint64_t r, uint8_t value=0xff)
 {
+    int errors = 0;
     for (auto p : rows[r])
         for (int i=0; i<PAGE_SIZE; ++i)
             if (p.v[i] != value)
             {
-                cout << endl << "--- Error in row #" << r <<" paddr 0x" << hex << p.p + i << ": 0x" << p.v[i] << endl;
+                cout << endl << "--- Error in row #" << dec << r <<" paddr 0x" << hex << p.p + i << ": 0x" << (int)p.v[i] << endl;
+                errors++;
             }
+    return errors;
 }
 
 void hammer_rows(uint64_t r)
 {
-    cout << "Hammering Row " << r << "->[" << r+1 << "]<-" << r+2 << endl;
+    cout << "Hammering Row " << dec << r << "->[" << r+1 << "]<-" << r+2 << endl;
     // google routine
     for (Page r0 : rows[r])
     {
         for (Page r2 : rows[r+2])
         {
-            fill_row(r+1);
-            // hammer.h
-            hammer_loop(r0.v, r2.v, 100000);
-            check_row(r+1);
-            cout << ".";
+            int ntime = 512000, ne;
+            do
+            {
+                fill_row(r+1);
+                // hammer.h
+                hammer_loop(r0.v, r2.v, ntime);
+                ne = check_row(r+1);
+                if (ne>0)
+                {
+                    cout << "paddr of hammering pages: " << hex
+                         << r0.p << " / " << r2.p << " n=" << dec << ntime << endl;
+                    ntime >>=1;
+                }
+            } while (ne > 0);
         }
-        cout << endl;
+        cout << ".";
+        cout.flush();
     }
 }
 
-int main(void)
+int main(int argc, char** argv)
 {
+    uint64_t start_from = atoi(argv[1]) - 1;
     // google rowhammer
     //1. allocate a lot of memory
     cout << "Physmem size: " << (physmem_size() >> 20) << " mb." << endl;
@@ -109,6 +124,7 @@ int main(void)
 
     //2. assume 15-bit row address (256kB = 64 pages per row), put each page into corrsponding rows
     analyze(m);
+    cout << "Start from row #" << start_from << endl;
 
     //3. select 3 rows with 64/64/64 pages (will have full control on these rows), start hammering
     #define HAVE_ROW(r) ((rows.count(r) && rows[r].size() == PAGES_PER_ROW))
@@ -116,11 +132,15 @@ int main(void)
     {
         if (HAVE_ROW(p.first) && HAVE_ROW(1+p.first) && HAVE_ROW(2+p.first))
             test_rows.push_back(p.first);
-    } 
+    }
 
     //4. for each row held, hammer all 64/64 pages. exhaustive
     for (uint64_t r : test_rows)
+    {
+        if (r < start_from) continue;
         hammer_rows(r);
+        cout << endl;
+    }
     // cleanup
     munmap(m, ALLOC_SIZE);
     return 0;
