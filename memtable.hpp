@@ -5,7 +5,9 @@
 #include "fstream"
 #include "string"
 #include "sstream"
-
+#include "map"
+#include "vector"
+#include "cinttypes"
 using namespace std;
 
 extern "C" {
@@ -75,6 +77,73 @@ public:
         fs.open(filename, fstream::in | fstream::out);
     }
     
+    
+};
+
+class RowFile
+{
+public:
+    string filename;
+    fstream fs;
+    map<uint64_t, vector<uint64_t> > data;
+public:    
+    RowFile(string fname) : filename(fname)
+    {
+        load();
+    }
+    
+    bool load()
+    {
+        data.clear();
+        fs.open(filename, fstream::in);
+        if (!fs) return false;
+        stringstream ss;
+        string tmp;
+        uint64_t row, count, pa;
+        
+        while (!fs.eof())
+        {
+            getline(fs, tmp);
+            if (tmp != "")
+            {
+                ss.clear();
+                ss << tmp;
+                ss >> std::dec >> row >> count;
+                if (row>0)
+                {
+                    data[row] = vector<uint64_t>();
+                    for (int i=0; i<count; ++i)
+                    {
+                        ss >> std::hex >> pa;
+                        data[row].push_back(pa);
+                    }
+                }
+            }
+        }
+        fs.close();
+        
+        return true;
+    }
+    
+    vector<uint64_t> &operator [](uint64_t row) 
+    {
+        if (data.count(row) == 0)
+            data[row] = vector<uint64_t>();
+        return data[row];
+    }
+    
+    void save()
+    {
+        fs.open(filename, fstream::out | ios::trunc);
+        for (auto p : data)
+        {
+            fs << std::dec << p.first << " " << p.second.size();
+            for (auto i : p.second)
+                fs << std::hex << " " << i;
+            fs << endl;
+        }
+        fs.close();
+    }
     
 };
 

@@ -1,4 +1,5 @@
 #include "iostream"
+#include "fstream"
 #include "vector"
 #include "list"
 #include "map"
@@ -35,6 +36,7 @@ struct Page {
 
 map<uint64_t, vector<Page> > rows;
 vector<uint64_t> test_rows;
+RowFile result("result.txt");
 
 uint8_t *allocate()
 {
@@ -82,6 +84,12 @@ int check_row(uint64_t r, uint8_t value=0xff)
             {
                 cout << endl << "--- Error in row #" << dec << r <<" paddr 0x" << hex << p.p + i << ": 0x" << (int)p.v[i] << endl;
                 errors++;
+                // write row file
+                if (find(result[r].begin(), result[r].end(), p.p+i) == result[r].end())
+                {
+                    result[r].push_back(p.p+i);
+                    result.save();
+                }
             }
     return errors;
 }
@@ -120,6 +128,7 @@ void hammer_rows(uint64_t r)
 int main(int argc, char** argv)
 {
     uint64_t start_from = atoi(argv[1]) - 1;
+    
     // google rowhammer
     //1. allocate a lot of memory
     cout << "Physmem size: " << (physmem_size() >> 20) << " mb." << endl;
