@@ -94,20 +94,23 @@ void hammer_rows(uint64_t r)
     {
         for (Page r2 : rows[r+2])
         {
-            int ntime = 512000, ne;
-            do
+            int ntime = 1024000, ne;
+            if (is_row_conflict(r0.v, r2.v))
             {
-                fill_row(r+1);
-                // hammer.h
-                hammer_loop(r0.v, r2.v, ntime);
-                ne = check_row(r+1);
-                if (ne>0)
+                do
                 {
-                    cout << "paddr of hammering pages: " << hex
-                         << r0.p << " / " << r2.p << " n=" << dec << ntime << endl;
-                    ntime >>=1;
-                }
-            } while (ne > 0);
+                    fill_row(r+1);
+                    // hammer.h
+                    hammer_loop(r0.v, r2.v, ntime);
+                    ne = check_row(r+1);
+                    if (ne>0)
+                    {
+                        cout << "paddr of hammering pages: " << hex
+                             << r0.p << " / " << r2.p << " n=" << dec << ntime << endl;
+                        ntime >>=1;
+                    }
+                } while (ne > 0);
+            }
         }
         cout << ".";
         cout.flush();
