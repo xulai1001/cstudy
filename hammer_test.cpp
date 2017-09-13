@@ -18,7 +18,7 @@ extern "C" {
 
 using namespace std;
 
-#define ALLOC_SIZE (2048ull << 20)
+#define ALLOC_SIZE (2748ull << 20)
 #define ROW_COUNT (1 << 15)
 // 行地址在高位, 所以对33位物理地址(8GB)要右移18位, 取高15位
 #define ROW_SHIFT 18
@@ -128,7 +128,7 @@ void hammer_rows(uint64_t r)
 int main(int argc, char** argv)
 {
     uint64_t start_from = atoi(argv[1]) - 1;
-    
+
     // google rowhammer
     //1. allocate a lot of memory
     cout << "Physmem size: " << (physmem_size() >> 20) << " mb." << endl;
