@@ -1,0 +1,36 @@
+pool: 6000 MB 1536000 pages
+return from chunk 112800000 (204896 pages)
+pinned 131072 pages 512 MB, start from paddr=120000000
+We can control the least [29] bits of paddr
+cleanup (pinned = 0)...1404928 pages released.
++ start testing...
+Row conflict % - bit #0 = 0 / 100
+Row conflict % - bit #1 = 0 / 100
+Row conflict % - bit #2 = 0 / 100
+Row conflict % - bit #3 = 0 / 100
+Row conflict % - bit #4 = 0 / 100
+Row conflict % - bit #5 = 0 / 100
+Row conflict % - bit #6 = 0 / 100
+Row conflict % - bit #7 = 0 / 100
+Row conflict % - bit #8 = 0 / 100
+Row conflict % - bit #9 = 0 / 100
+Row conflict % - bit #10 = 0 / 100
+Row conflict % - bit #11 = 1 / 100
+Row conflict % - bit #12 = 2 / 100
+Row conflict % - bit #13 = 1 / 100
+Row conflict % - bit #14 = 2 / 100
+Row conflict % - bit #15 = 5 / 100
+Row conflict % - bit #16 = 0 / 100
+Row conflict % - bit #17 = 0 / 100
+Row conflict % - bit #18 = 0 / 100
+Row conflict % - bit #19 = 0 / 100
+Row conflict % - bit #20 = 49 / 100
+Row conflict % - bit #21 = 49 / 100
+Row conflict % - bit #22 = 100 / 100
+Row conflict % - bit #23 = 100 / 100
+Row conflict % - bit #24 = 100 / 100
+Row conflict % - bit #25 = 100 / 100
+Row conflict % - bit #26 = 100 / 100
+Row conflict % - bit #27 = 100 / 100
+Row conflict % - bit #28 = 100 / 100
+cleanup (pinned = 1)...131072 pages released.

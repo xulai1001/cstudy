@@ -14,12 +14,14 @@
 
 //page select
 #define PAGE_SIZE 0x1000
+#define PAGE_MASK 0xfff
 #define PAGE_SHIFT 12
 #define PAGE_FLAG 0
-#define HUGE_SIZE 0x200000
+#define HUGE_SIZE 0x200000ull
+#define HUGE_MASK 0x1fffffull
 #define HUGE_SHIFT 21
 #define HUGE_FLAG 0x40000
-#define PFN_MASK ((1ul << 55) - 1)
+#define PFN_MASK ((1ull << 55) - 1)
 
 int fd_pagemap = -1;
 

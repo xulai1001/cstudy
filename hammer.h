@@ -38,7 +38,7 @@ int is_row_conflict(void *va, void *vb)
     access_time = hammer_loop(va, vb, 100) / (100*2);
     while (access_time > 3*ACCESS_TIME_THRESHOLD)
     {
-        printf("access time too long (%d), retry...\n", access_time);
+        //printf("access time too long (%d), retry...\n", access_time);
         access_time = hammer_loop(va, vb, 100) / (100*2);
     } 
     return (access_time >= ACCESS_TIME_THRESHOLD);
