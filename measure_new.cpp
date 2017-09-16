@@ -88,13 +88,17 @@ vector<Page> get_contiguous_aligned_pages(int pool_mb)
     vector<Page> ret;
     chunks.clear();
 
-    cout << "pool: " << pool_mb << " MB " << pool_pages << " pages" << endl;
+    cout << "allocate pool: " << pool_mb << " MB " << pool_pages << " pages" << endl;
 
     // allocate pool & sort by paddr
     pool.clear();
     pool.resize(pool_pages);
     for (i=0; i<pool_pages; ++i)
-        pool[i].acquire();        
+    {
+        pool[i].acquire();
+        if (i % 25600 == 0) cout << ".";    // per 100MB
+    }
+    cout << endl;
     sort(pool.begin(), pool.end());
     
     // group contiguous pages
@@ -202,17 +206,31 @@ int latency(int x, int y=-1, int z=-1)
 int main(int argc, char **argv)
 {
     int mb = atoi(argv[1]);
+    int i, j, k;
     pages = get_contiguous_aligned_pages(mb);
     
     // use CTZ to get lsb of size (=log2(size))
     int orders = __builtin_ctz(pages.size()) + PAGE_SHIFT;
     cout << "We can control the least [" << orders << "] bits of paddr" << endl;
     cleanup(false);
-    cout << "+ start testing..." << endl;
-    
+
     genseed(100, orders);
-    for (int i=0; i<orders; ++i)
-        cout << dec <<  "Row conflict % - bit #" << i << " = " << latency(i) << " / 100" << endl; 
+    cout << "+ start testing with 100 random addresses..." << endl;
+
+    // 1-bit flip - detect row bits
+    for (i=0; i<orders; ++i)
+        cout << dec <<  i << ":" << latency(i) << endl; 
+    
+    // 2-bits flip - detect column bits
+    for (i=0; i<orders; ++i)
+        for (j=i+1; j<orders; ++j)
+            cout << i << " " << j << ":" << latency(i, j) << endl;
+    
+    // 3-bits flip - detect xor bits
+    for (i=0; i<orders; ++i)
+        for (j=i+1; j<orders; ++j)
+            for (k=j+1; k<orders; ++k)
+                cout << i << " " << j << " " << k << ":" << latency(i, j, k) << endl;
     
     cleanup(true);
     return 0;
