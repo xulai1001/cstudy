@@ -1,6 +1,6 @@
 #encoding: utf-8
 
-$base=32
+$base=33
 
 def get_key(*args)
     args.sort.reduce(0){|sum, i| sum*$base+i+1}
@@ -27,11 +27,16 @@ File.read("result_measure.txt").each_line {|line|
 }
 
 # start test from bit 3, for 0..2 are word address (within 64-bit)
-$row_bits = (3...$base).select {|x| conflict?(x) }
-$row_related = (3...$base).select {|x| related?(x) }
+$bits = 3...$base
+$row_bits = $bits.select {|x| conflict?(x) }
+$low_bits = (3...$row_bits.min).to_a
+$row_related = $bits.select {|x| related?(x) }
 puts "pure row bits: #{$row_bits} and higher, row related bits: #{$row_related}"
-$column_bits = (3...$base).select {|x| $row_bits.all?{|y| conflict?(x, y) } }
+$column_bits = $bits.select {|x| $row_bits.all?{|y| conflict?(x, y) } }
 puts "pure column bits: #{$column_bits}"
+$channel_related = $low_bits.select {|x| $bits.none?{|y| ($lats[get_key(x, y)] || 0) >= 20 } }
+$bank_related = $low_bits - $row_related - $column_bits - $channel_related
+puts "channel related bits: #{$channel_related}, bank/rank related bits: #{$bank_related}"
 
 def print_graph
     # header
