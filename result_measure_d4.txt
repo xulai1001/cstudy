@@ -1,3 +1,10 @@
+allocate pool: 8192 MB 2097152 pages
+..................................................................................
+return from chunk 396000000 (1219072 pages)
+pinned 131072 pages 512 MB, start from paddr=3a0000000
+We can control the least [29] bits of paddr
+cleanup (pinned = 0)...1966080 pages released.
++ start testing with 100 random addresses...
 0:2
 1:3
 2:2
@@ -4087,3 +4094,4 @@
 25 26 28:100
 25 27 28:100
 26 27 28:100
+cleanup (pinned = 1)...131072 pages released.

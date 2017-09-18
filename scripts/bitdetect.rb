@@ -1,6 +1,6 @@
 #encoding: utf-8
 
-$base=33
+$base=35
 
 def get_key(*args)
     args.sort.reduce(0){|sum, i| sum*$base+i+1}
