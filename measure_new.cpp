@@ -70,7 +70,7 @@ public:
         }
     }
 
-    bool operator <(Page &b) { return p<b.p; }
+    bool operator <(const Page b) { return p<b.p; }
 };
 
 list<vector<Page> > chunks;
@@ -84,7 +84,7 @@ vector<Page> get_contiguous_aligned_pages(int pool_mb)
 {
     int i;
     int pool_pages = ((uint64_t)pool_mb << 20) / ALLOC_SIZE;   // 256 pages / MB
-    int max_pages=0;
+    uint64_t max_pages=0;
     vector<Page> ret;
     chunks.clear();
 
@@ -96,7 +96,7 @@ vector<Page> get_contiguous_aligned_pages(int pool_mb)
     for (i=0; i<pool_pages; ++i)
     {
         pool[i].acquire();
-        if (i % 25600 == 0) cout << ".";    // per 100MB
+        if (i % 25600 == 0) { cout << "."; cout.flush(); } // per 100MB
     }
     cout << endl;
     sort(pool.begin(), pool.end());
@@ -133,7 +133,8 @@ vector<Page> get_contiguous_aligned_pages(int pool_mb)
     uint64_t align_size, align_base;
     int align_pages;
     
-    while (true)
+//    cout << align_shift << endl;
+    while (align_shift > 0)
     {
         align_size = 1 << align_shift;
         align_base = (chunk_base % align_size==0) ? chunk_base : (chunk_base - chunk_base % align_size + align_size);
