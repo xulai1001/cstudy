@@ -14,8 +14,8 @@
     :"r"(a), "r"(b) \
     :"rax", "memory")
 
-// row conflict (slow path) > 240 ticks
-#define ACCESS_TIME_THRESHOLD 240
+// row conflict (slow path) > 260 ticks
+#define ACCESS_TIME_THRESHOLD 260
 
 // hammer function. returns operation time (ticks)
 uint64_t hammer_loop(void *va, void *vb, int n)
@@ -32,15 +32,16 @@ uint64_t hammer_loop(void *va, void *vb, int n)
 
 // method from OBF (usenix 16)
 // given 2 virt addrs, measure their average access time by hammering
-int is_row_conflict(void *va, void *vb)
+int is_row_conflict(void *va, void *vb, int *out=0)
 {
     int access_time;
-    access_time = hammer_loop(va, vb, 100) / (100*2);
-    while (access_time > 3*ACCESS_TIME_THRESHOLD)
+    access_time = hammer_loop(va, vb, 200) / (200*2);
+    while (access_time > 2*ACCESS_TIME_THRESHOLD)
     {
         //printf("access time too long (%d), retry...\n", access_time);
-        access_time = hammer_loop(va, vb, 100) / (100*2);
-    } 
+        access_time = hammer_loop(va, vb, 200) / (200*2);
+    }
+    if (out) *out = access_time;
     return (access_time >= ACCESS_TIME_THRESHOLD);
 }
 
