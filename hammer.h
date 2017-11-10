@@ -14,8 +14,8 @@
     :"r"(a), "r"(b) \
     :"rax", "memory")
 
-// row conflict (slow path) > 260 ticks
-#define ACCESS_TIME_THRESHOLD 260
+// row conflict (slow path) > 250 ticks
+#define ACCESS_TIME_THRESHOLD 250
 
 // hammer function. returns operation time (ticks)
 uint64_t hammer_loop(void *va, void *vb, int n)

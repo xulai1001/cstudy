@@ -17,7 +17,7 @@ end
 
 $lats = {}
 
-def conflict?(*args);  ($lats[get_key(*args)] || 0) >= 99; end  # same as latency=1
+def conflict?(*args);  ($lats[get_key(*args)] || 0) >= 90; end  # same as latency=1
 def related?(*args); ($lats[get_key(*args)] || 0).between?(20, 80); end
 
 File.read("result_measure.txt").each_line {|line|
@@ -33,7 +33,7 @@ $row_bits = $bits.select {|x| conflict?(x) }
 $low_bits = (3...$row_bits.min).to_a
 
 # 2. row related bits: causes some (50%) conflict with only 1 bit flip.
-# in DDR3 the bit is row ^ rank/bank
+# in DDR3 the bit is row ^ channel
 $row_related = $bits.select {|x| related?(x) }
 puts "pure row bits: #{$row_bits} and higher, row related bits: #{$row_related}"
 
@@ -45,7 +45,8 @@ puts "pure column bits: #{$column_bits}"
 # 4. channel related bits: no conflict at all. changing this bit results in another channel
 $channel_related = $low_bits.select {|x| $bits.none?{|y| ($lats[get_key(x, y)] || 0) >= 20 } }
 $bank_related = $low_bits - $row_related - $column_bits - $channel_related
-puts "channel related bits: #{$channel_related}, bank/rank related bits: #{$bank_related}"
+puts "channel related bits: #{$channel_related}"
+puts "bank/rank related bits: #{$bank_related.combination(2).select{|x| conflict?(*x)}}"
 
 def print_graph
     # header
