@@ -35,7 +35,7 @@ struct DramMapping
     
     void print_vector(vector<int> &v)
     {
-        cout << v[0];
+        if(v.size()>0) cout << v[0];
         for (int i=1; i<v.size(); ++i) cout << "^" << v[i];
     }
     
@@ -121,11 +121,11 @@ int main(void)
 {
     cout << "--- Ivy Bridge ---" << endl;
     ivy.nrow = 15;
-    ivy.row_ranges = {{18, 32}};
-    ivy.bank_bits = {{14, 18}, {15, 19}, {17, 21}};
+    ivy.row_ranges = {{17, 32}};
+    ivy.bank_bits = {{13, 17}, {14, 18}, {15, 19}};
     ivy.rank_bits = {16, 20};
-    ivy.chnl_bits = {7, 8, 9, 12, 13, 18, 19};
-    ivy.mask_bits = {{8, 14, 18}, {9, 15, 19}};
+    ivy.chnl_bits = {};
+    ivy.mask_bits = {{13, 17}, {14, 18}};
     ivy.print();
 //    ivy.parse(0xf0f0f0full).print();
 //    ivy.parse(ivy.change_row(0xf0f0f0full, 1)).print();
