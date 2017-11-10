@@ -4,3 +4,8 @@
 */.tmp_versions/*
 .*.cmd
 *.*~
+dram
+measure
+hammer
+hammer_targeted
+latency
